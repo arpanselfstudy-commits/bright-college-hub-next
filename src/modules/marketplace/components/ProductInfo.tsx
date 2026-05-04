@@ -4,6 +4,7 @@ import { MessageCircle, CheckCircle, Clock } from 'lucide-react'
 import { CATEGORY_LABEL, type ListedProductCategory } from '@/modules/marketplace/types'
 import type { ListedProduct } from '@/modules/marketplace/types'
 import styles from './ProductDetailView.module.css'
+import { formatPrice } from '@/utils/globalStaticData'
 
 interface ProductInfoProps {
   product: ListedProduct
@@ -31,7 +32,7 @@ export default function ProductInfo({ product, onShowContact }: ProductInfoProps
       <h1 className="product-title">{product.productName}</h1>
 
       <div className="product-price-row">
-        <span className="product-price">${product.price}</span>
+        <span className="product-price">{formatPrice(product.price)}</span>
         {product.isNegotiable && (
           <span className={styles.negotiable}>
             <CheckCircle size={14} /> Negotiable

@@ -12,6 +12,7 @@ import ProfileHeader from './ProfileHeader'
 import type { AuthUser } from '@/modules/auth/types'
 import type { ListedProduct, RequestedProduct } from '@/modules/marketplace/types'
 import styles from './account.module.css'
+import { formatPrice } from '@/utils/globalStaticData'
 
 export interface MyProfileViewProps {
   user: AuthUser | null
@@ -110,7 +111,7 @@ export default function MyProfileView({
                   badgeBg={item.isAvailable ? '#dcfce7' : '#fef9c3'}
                   badgeColor={item.isAvailable ? '#166534' : '#854d0e'}
                   title={item.productName}
-                  price={`$${item.price}`}
+                  price={formatPrice(item.price)}
                   description={item.description}
                   manageHref={`/account/manage-listing/${item._id}`}
                   onDelete={() =>
@@ -153,7 +154,7 @@ export default function MyProfileView({
                   badgeColor={item.isFulfilled ? '#166534' : '#3730a3'}
                   dimImage
                   title={item.name}
-                  price={`$${item.price.from}–$${item.price.to}`}
+                  price={`${formatPrice(item.price.from)}–${formatPrice(item.price.to)}`}
                   description={item.description}
                   manageHref={`/account/manage-request/${item._id}`}
                   onDelete={() =>

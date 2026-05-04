@@ -98,3 +98,10 @@ export const SIDEBAR_LINKS = [
 
 // ── Reset password decorative circle sizes ───────────────
 export const RESET_PASSWORD_CIRCLES = [80, 140, 200, 260, 320] as const
+
+// ── Price formatting ─────────────────────────────────────
+/** Prepends '$' only if the value doesn't already start with one */
+export function formatPrice(price: string | number): string {
+  const str = String(price)
+  return str.startsWith('$') ? str : `$${str}`
+}

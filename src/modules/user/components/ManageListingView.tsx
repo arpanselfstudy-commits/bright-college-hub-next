@@ -13,6 +13,7 @@ import type { ListedProduct } from '@/modules/marketplace/types'
 import styles from './account.module.css'
 import type { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form'
 import type { ManageListingForm } from '@/modules/user/types'
+import { formatPrice } from '@/utils/globalStaticData'
 
 function Toggle({ on, onChange, teal = false }: { on: boolean; onChange: (v: boolean) => void; teal?: boolean }) {
   return (
@@ -166,7 +167,7 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
             <div className={styles.infoCard}>
               <div className={styles.infoCardTitle}>{product.productName}</div>
               <div className={styles.infoCardPriceRow}>
-                <span className={styles.infoCardPrice}>${product.price}</span>
+                <span className={styles.infoCardPrice}>{formatPrice(product.price)}</span>
                 <span className={styles.infoCardBadge} style={{ background: '#e0e7ff', color: '#3730a3' }}>{product.category}</span>
                 <span className={styles.infoCardBadge} style={{ background: '#f3f4f6', color: '#6b7280' }}>{product.condition}</span>
               </div>
