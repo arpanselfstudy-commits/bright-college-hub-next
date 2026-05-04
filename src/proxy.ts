@@ -10,7 +10,7 @@ const ALLOWED_ORIGINS = [
   'https://69f8e05a605f31cbb51eb128--bright-college-hub-admin-react.netlify.app',
   // Netlify stable production URL — update this to your actual site name
   'https://bright-college-hub-admin-react.netlify.app',
-  'https://69f8ecd1fe2c16f432a85e7f--bright-collage-hub-admin.netlify.app/'
+  'https://69f8ecd1fe2c16f432a85e7f--bright-collage-hub-admin.netlify.app'
 ]
 
 function setCorsHeaders(res: NextResponse, origin: string) {
