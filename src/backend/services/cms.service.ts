@@ -26,10 +26,17 @@ export async function createCms(data: CreateCmsInput): Promise<ICms> {
   return cms.toObject() as ICms
 }
 
-export async function updateCms(type: string, data: UpdateCmsInput): Promise<ICms> {
+function buildCmsQuery(typeOrId: string) {
+  // If it looks like a MongoDB ObjectId (24 hex chars), query by _id; otherwise by type
+  return /^[a-f\d]{24}$/i.test(typeOrId)
+    ? { _id: typeOrId }
+    : { type: typeOrId.toUpperCase() }
+}
+
+export async function updateCms(typeOrId: string, data: UpdateCmsInput): Promise<ICms> {
   await connectDB()
   const cms = await CmsModel.findOneAndUpdate(
-    { type: type.toUpperCase() },
+    buildCmsQuery(typeOrId),
     data,
     { new: true, runValidators: true }
   )
@@ -37,9 +44,9 @@ export async function updateCms(type: string, data: UpdateCmsInput): Promise<ICm
   return cms.toObject() as ICms
 }
 
-export async function deleteCms(type: string): Promise<void> {
+export async function deleteCms(typeOrId: string): Promise<void> {
   await connectDB()
-  const cms = await CmsModel.findOneAndDelete({ type: type.toUpperCase() })
+  const cms = await CmsModel.findOneAndDelete(buildCmsQuery(typeOrId))
   if (!cms) throw new AppError('CMS page not found', 404, 'NOT_FOUND')
 }
 
