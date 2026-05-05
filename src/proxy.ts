@@ -6,8 +6,7 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3002',
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://69f98cc6ff82030007caf521--bright-college-hub-admin-react.netlify.app'
-  // Netlify deploy preview (hash changes per deploy — keep for dev previews)
+ "https://bright-college-admin-react.vercel.app"
 ]
 
 function setCorsHeaders(res: NextResponse, origin: string) {
