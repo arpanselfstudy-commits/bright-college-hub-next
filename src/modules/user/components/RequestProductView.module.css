@@ -80,6 +80,7 @@
   border-radius: 20px;
   padding: 36px;
   box-shadow: 0 4px 24px rgba(11, 28, 48, 0.07);
+  min-width: 0;
 }
 
 .form {
@@ -263,11 +264,51 @@
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
+
+/* Mobile header — hidden on desktop, shown on mobile */
+.mobileHeader {
+  display: none;
+}
+
+.mobileHeading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #0b1c30;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.mobileSubText {
+  font-size: 14px;
+  color: #464554;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
 @media (max-width: 767px) {
-  .infoPanel { display: none; }
+  .wrapper {
+    flex-direction: column;
+    padding: 16px;
+    gap: 0;
+  }
+  .infoPanel    { display: none; }
+  .mobileHeader { display: block; margin-bottom: 20px; }
+  .formPanel    {
+    padding: 20px 16px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 24px rgba(11, 28, 48, 0.07);
+    width: 100%;
+  }
+  .priceGrid    { grid-template-columns: 1fr; }
+  .contactGrid  { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .wrapper   { padding: 32px 24px; gap: 28px; }
+  .infoPanel { width: 200px; }
+  .formPanel { padding: 28px 24px; }
   .priceGrid { grid-template-columns: 1fr; }
   .contactGrid { grid-template-columns: 1fr; }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-  /* tablet: no overrides needed for this view */
 }

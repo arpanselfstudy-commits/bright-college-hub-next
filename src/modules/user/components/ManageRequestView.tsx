@@ -74,7 +74,52 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
                 {isFulfilled ? 'Fulfilled' : 'Active'}
               </span>
             </div>
+          </div>
 
+          <div className={styles.manageRight}>
+            <div className={styles.infoCard}>
+              <div className={styles.infoCardTitle}>{request.name}</div>
+              <div className={styles.infoCardPriceRow}>
+                <span className={styles.infoCardPrice}>${request.price.from} – ${request.price.to}</span>
+                {request.category && <span className={styles.infoCardBadgeRequest}>{request.category}</span>}
+              </div>
+              <p className={styles.infoCardDesc}>{request.description}</p>
+            </div>
+
+            <div className={styles.togglesCard}>
+              {([
+                { key: 'isFulfilled' as const, label: 'Request Fulfilled', sub: 'Hide from public marketplace', teal: true, value: isFulfilled },
+                { key: 'isNegotiable' as const, label: 'Open to Negotiate', sub: 'Allow price proposals', teal: false, value: isNegotiable },
+              ]).map((t) => (
+                <div key={t.key} className={styles.toggleRow}>
+                  <div>
+                    <div className={styles.toggleTitle}>{t.label}</div>
+                    <div className={styles.toggleSub}>{t.sub}</div>
+                  </div>
+                  <Toggle on={t.value ?? false} onChange={(v) => onToggle(t.key, v)} teal={t.teal} />
+                </div>
+              ))}
+            </div>
+
+            {/* Actions row — hidden when editing */}
+            {!editing && (
+              <>
+                <div className={styles.actionsRow}>
+                  <button onClick={onToggleEditing} className={styles.editDetailsBtn}><Pencil size={15} /> Edit Details</button>
+                  <button onClick={onDelete} disabled={deleting} className={styles.dangerBtn}>
+                    {deleting ? <Loader2 size={16} className={styles.spin} /> : <Trash2 size={16} />}
+                  </button>
+                </div>
+
+                <div className={styles.contactCard}>
+                  <div className={styles.contactLabel}>Contact Details</div>
+                  <div className={styles.contactLine}>{request.contactDetails.email}</div>
+                  <div className={styles.contactLine}>{request.contactDetails.phoneNo}</div>
+                </div>
+              </>
+            )}
+
+            {/* Edit form — shown at bottom when editing */}
             {editing && (
               <div className={styles.editForm}>
                 <h3 className={styles.editFormTitle}>Edit Request</h3>
@@ -115,21 +160,6 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
                     {...register('description')}
                   />
 
-                  <div className={styles.editFormGrid2}>
-                    <Input
-                      label="Email"
-                      type="email"
-                      error={errors.email?.message}
-                      {...register('email')}
-                    />
-                    <Input
-                      label="Phone"
-                      type="tel"
-                      error={errors.phoneNo?.message}
-                      {...register('phoneNo')}
-                    />
-                  </div>
-
                   <div className={styles.editFormActions}>
                     <button onClick={onSave} disabled={updating} className={styles.saveBtn}>
                       {updating ? <Loader2 size={16} className={styles.spin} /> : <Check size={16} />} Save Changes
@@ -139,45 +169,6 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
                 </div>
               </div>
             )}
-          </div>
-
-          <div className={styles.manageRight}>
-            <div className={styles.infoCard}>
-              <div className={styles.infoCardTitle}>{request.name}</div>
-              <div className={styles.infoCardPriceRow}>
-                <span className={styles.infoCardPrice}>${request.price.from} – ${request.price.to}</span>
-                {request.category && <span className={styles.infoCardBadgeRequest}>{request.category}</span>}
-              </div>
-              <p className={styles.infoCardDesc}>{request.description}</p>
-            </div>
-
-            <div className={styles.togglesCard}>
-              {([
-                { key: 'isFulfilled' as const, label: 'Request Fulfilled', sub: 'Hide from public marketplace', teal: true, value: isFulfilled },
-                { key: 'isNegotiable' as const, label: 'Open to Negotiate', sub: 'Allow price proposals', teal: false, value: isNegotiable },
-              ]).map((t) => (
-                <div key={t.key} className={styles.toggleRow}>
-                  <div>
-                    <div className={styles.toggleTitle}>{t.label}</div>
-                    <div className={styles.toggleSub}>{t.sub}</div>
-                  </div>
-                  <Toggle on={t.value ?? false} onChange={(v) => onToggle(t.key, v)} teal={t.teal} />
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.actionsRow}>
-              <button onClick={onToggleEditing} className={styles.editDetailsBtn}><Pencil size={15} /> Edit Details</button>
-              <button onClick={onDelete} disabled={deleting} className={styles.dangerBtn}>
-                {deleting ? <Loader2 size={16} className={styles.spin} /> : <Trash2 size={16} />}
-              </button>
-            </div>
-
-            <div className={styles.contactCard}>
-              <div className={styles.contactLabel}>Contact Details</div>
-              <div className={styles.contactLine}>{request.contactDetails.email}</div>
-              <div className={styles.contactLine}>{request.contactDetails.phoneNo}</div>
-            </div>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function RequestProductView({
   return (
     <div className={styles.wrapper}>
 
-      {/* Left info panel */}
+      {/* Left info panel — desktop/tablet only */}
       <div className={styles.infoPanel}>
         <div className={styles.backWrap}>
           <BackButton href="/account/my-profile" label="Back to Profile" />
@@ -61,6 +61,15 @@ export default function RequestProductView({
             <div className={styles.featureCardSub}>{c.sub}</div>
           </div>
         ))}
+      </div>
+
+      {/* Mobile header — back button + title, shown only on mobile */}
+      <div className={styles.mobileHeader}>
+        <div className={styles.backWrap}>
+          <BackButton href="/account/my-profile" label="Back to Profile" />
+        </div>
+        <h1 className={styles.mobileHeading}>Source a Product</h1>
+        <p className={styles.mobileSubText}>Can&apos;t find what you need? Post a request and let the right product find you.</p>
       </div>
 
       {/* Form */}

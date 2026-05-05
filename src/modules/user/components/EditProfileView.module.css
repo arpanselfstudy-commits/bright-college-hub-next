@@ -148,9 +148,18 @@
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 767px) {
-  .wrapper   { padding: 20px 16px; }
+  .wrapper   { padding: 16px; }
   .formCard  { padding: 20px 16px; }
   .infoCards { grid-template-columns: 1fr; }
   .formActions { flex-direction: column; }
   .submitBtn, .cancelBtn { width: 100%; justify-content: center; }
+
+  .backRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .pageTitle { font-size: 20px; }
 }

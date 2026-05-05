@@ -242,3 +242,13 @@
 
 /* ── Hidden file input ──────────────────────────────────── */
 .hiddenInput { display: none; }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .avatarWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+}

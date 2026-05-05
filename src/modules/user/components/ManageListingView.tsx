@@ -76,7 +76,49 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
               {!product.images[0] && <ShoppingBag size={80} color="rgba(255,255,255,0.2)" strokeWidth={1} />}
               <span className={styles.manageImgId}>{product._id?.slice(-8).toUpperCase()}</span>
             </div>
+          </div>
 
+          <div className={styles.manageRight}>
+            <div className={styles.infoCard}>
+              <div className={styles.infoCardTitle}>{product.productName}</div>
+              <div className={styles.infoCardPriceRow}>
+                <span className={styles.infoCardPrice}>{formatPrice(product.price)}</span>
+                <span className={styles.infoCardBadgeCategory}>{product.category}</span>
+                <span className={styles.infoCardBadgeCondition}>{product.condition}</span>
+              </div>
+              <p className={styles.infoCardDesc}>{product.description}</p>
+              {product.isNegotiable && <p className={styles.infoCardNote}>✓ Open to negotiation</p>}
+            </div>
+
+            <div className={styles.togglesCard}>
+              <div className={styles.toggleRow}>
+                <div className={styles.toggleLeft}>
+                  <div className={styles.toggleIcon}><Package size={18} color="#2a14b4" /></div>
+                  <div><div className={styles.toggleTitle}>Available</div><div className={styles.toggleSub}>Show this listing publicly</div></div>
+                </div>
+                <Toggle on={isAvailable ?? false} onChange={onToggleAvailable} />
+              </div>
+            </div>
+
+            {/* Actions row — hidden when editing */}
+            {!editing && (
+              <>
+                <div className={styles.actionsRow}>
+                  <button onClick={onToggleEditing} className={styles.editDetailsBtn}><Pencil size={15} /> Edit Details</button>
+                  <button onClick={onDelete} disabled={deleting} className={styles.dangerBtn}>
+                    {deleting ? <Loader2 size={16} className={styles.spin} /> : <Trash2 size={16} />}
+                  </button>
+                </div>
+
+                <div className={styles.contactCard}>
+                  <div className={styles.contactLabel}>Contact Details</div>
+                  <div className={styles.contactLine}>{product.contactDetails.email}</div>
+                  <div className={styles.contactLine}>{product.contactDetails.phoneNo}</div>
+                </div>
+              </>
+            )}
+
+            {/* Edit form — shown at bottom when editing */}
             {editing && (
               <div className={styles.editForm}>
                 <h3 className={styles.editFormTitle}>Edit Details</h3>
@@ -130,21 +172,6 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
                     />
                   </div>
 
-                  <div className={styles.editFormGrid2}>
-                    <Input
-                      label="Email"
-                      type="email"
-                      error={errors.email?.message}
-                      {...register('email')}
-                    />
-                    <Input
-                      label="Phone"
-                      type="tel"
-                      error={errors.phoneNo?.message}
-                      {...register('phoneNo')}
-                    />
-                  </div>
-
                   <label className={styles.checkboxLabel}>
                     <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
                     Open to Negotiation
@@ -159,42 +186,6 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
                 </div>
               </div>
             )}
-          </div>
-
-          <div className={styles.manageRight}>
-            <div className={styles.infoCard}>
-              <div className={styles.infoCardTitle}>{product.productName}</div>
-              <div className={styles.infoCardPriceRow}>
-                <span className={styles.infoCardPrice}>{formatPrice(product.price)}</span>
-                <span className={styles.infoCardBadgeCategory}>{product.category}</span>
-                <span className={styles.infoCardBadgeCondition}>{product.condition}</span>
-              </div>
-              <p className={styles.infoCardDesc}>{product.description}</p>
-              {product.isNegotiable && <p className={styles.infoCardNote}>✓ Open to negotiation</p>}
-            </div>
-
-            <div className={styles.togglesCard}>
-              <div className={styles.toggleRow}>
-                <div className={styles.toggleLeft}>
-                  <div className={styles.toggleIcon}><Package size={18} color="#2a14b4" /></div>
-                  <div><div className={styles.toggleTitle}>Available</div><div className={styles.toggleSub}>Show this listing publicly</div></div>
-                </div>
-                <Toggle on={isAvailable ?? false} onChange={onToggleAvailable} />
-              </div>
-            </div>
-
-            <div className={styles.actionsRow}>
-              <button onClick={onToggleEditing} className={styles.editDetailsBtn}><Pencil size={15} /> Edit Details</button>
-              <button onClick={onDelete} disabled={deleting} className={styles.dangerBtn}>
-                {deleting ? <Loader2 size={16} className={styles.spin} /> : <Trash2 size={16} />}
-              </button>
-            </div>
-
-            <div className={styles.contactCard}>
-              <div className={styles.contactLabel}>Contact Details</div>
-              <div className={styles.contactLine}>{product.contactDetails.email}</div>
-              <div className={styles.contactLine}>{product.contactDetails.phoneNo}</div>
-            </div>
           </div>
         </div>
       </div>
