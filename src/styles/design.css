@@ -416,7 +416,7 @@ input { font-family: inherit; }
 .sidebar-section { margin-bottom: 28px; }
 .sidebar-section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cn-text-muted); margin-bottom: 12px; }
 .sidebar-check { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--cn-text); margin-bottom: 10px; cursor: pointer; }
-.sidebar-check input { accent-color: var(--cn-primary); width: 15px; height: 15px; }
+.sidebar-check input { accent-color: var(--color-primary, var(--cn-primary)); width: 15px; height: 15px; flex-shrink: 0; appearance: auto; -webkit-appearance: auto; cursor: pointer; }
 .level-tags { display: flex; gap: 8px; flex-wrap: wrap; }
 .level-tag { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--cn-border); background: white; color: var(--cn-text-muted); cursor: pointer; }
 .level-tag--active { background: var(--cn-primary); color: white; border-color: var(--cn-primary); }
@@ -489,7 +489,7 @@ input { font-family: inherit; }
 .mp-sidebar-section { margin-bottom: 24px; }
 .mp-sidebar-section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cn-text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 .mp-check { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--cn-text); margin-bottom: 10px; cursor: pointer; }
-.mp-check input { accent-color: var(--cn-primary); width: 15px; height: 15px; }
+.mp-check input { accent-color: var(--color-primary, var(--cn-primary)); width: 15px; height: 15px; flex-shrink: 0; appearance: auto; -webkit-appearance: auto; cursor: pointer; }
 .mp-check--active { color: var(--cn-primary); font-weight: 600; }
 .mp-apply-btn { width: 100%; padding: 12px; font-size: 14px; border-radius: 10px; margin-top: 8px; }
 

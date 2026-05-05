@@ -153,6 +153,12 @@
   color: #fff;
 }
 
+.toggleBtnActive:hover {
+  background: var(--color-primary-dark, #1e0e8a);
+  border-color: var(--color-primary-dark, #1e0e8a);
+  color: #fff;
+}
+
 /* Results header */
 .resultsHeader {
   margin-bottom: 16px;

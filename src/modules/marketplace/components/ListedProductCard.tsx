@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import FallbackImage from '@/components/common/FallbackImage/FallbackImage'
-import { ShoppingBag, MessageCircle, Tag } from 'lucide-react'
+import { ShoppingBag, Tag, Eye } from 'lucide-react'
 import { CATEGORY_BG, CATEGORY_TEXT, formatPrice } from '@/utils/globalStaticData'
 import { CATEGORY_LABEL, type ListedProductCategory } from '@/modules/marketplace/types'
 import type { ListedProduct } from '@/modules/marketplace/types'
+import Button from '@/components/common/Button/Button'
 import styles from './MarketplaceView.module.css'
 
 export interface ListedProductCardProps {
@@ -38,7 +39,15 @@ export default function ListedProductCard({ item, variant = 'main' }: ListedProd
               <div className={styles.mpNegotiable}>
                 <Tag size={12} />{item.isNegotiable ? 'Negotiable' : 'Fixed price'}
               </div>
-              <button className="mp-msg-btn"><MessageCircle size={14} /></button>
+              <Button
+                variant="secondary"
+                size="sm"
+                icon={<Eye size={12} />}
+                iconPosition="left"
+                aria-label="View details"
+              >
+                View Details
+              </Button>
             </div>
           </div>
         </div>
@@ -75,7 +84,15 @@ export default function ListedProductCard({ item, variant = 'main' }: ListedProd
                 <div className="mp-seller-year">{item.yearUsed} yr{item.yearUsed !== 1 ? 's' : ''} used</div>
               </div>
             </div>
-            <button className="mp-msg-btn"><MessageCircle size={14} /></button>
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={<Eye size={12} />}
+              iconPosition="left"
+              aria-label="View details"
+            >
+              View Details
+            </Button>
           </div>
         </div>
       </div>

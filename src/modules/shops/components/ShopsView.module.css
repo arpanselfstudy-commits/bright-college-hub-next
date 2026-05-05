@@ -101,6 +101,12 @@
   color: #fff;
 }
 
+.dayBtnActive:hover {
+  background: var(--color-primary-dark, #1e0e8a);
+  border-color: var(--color-primary-dark, #1e0e8a);
+  color: #fff;
+}
+
 .distanceRange {
   width: 100%;
   accent-color: #2a14b4;

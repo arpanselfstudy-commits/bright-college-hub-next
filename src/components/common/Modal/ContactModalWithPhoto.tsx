@@ -54,7 +54,6 @@ export default function ContactModalWithPhoto({
           <span className={styles.verifiedIcon}>✓</span>
           <span className={styles.verifiedText}>Verified Campus Seller since {verifiedSince}</span>
         </div>
-        <button className={styles.contactBtnPrimary} onClick={onMessage}>Message {name.split(' ')[0]}</button>
         <button className={styles.contactBtnClose} onClick={onClose}>Close</button>
       </div>
     </div>

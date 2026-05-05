@@ -35,7 +35,7 @@ export default function LandingMarketplace({
             onClick={() => onTabChange(t)}
             className={`${styles.mpTab} ${tab === t ? styles['mpTab--active'] : ''}`}
           >
-            {t === 'listed' ? 'Listed by Users' : 'Requested by Users'}
+            {t === 'listed' ? 'Listed Items' : 'Requested Items'}
           </button>
         ))}
       </div>

@@ -165,7 +165,7 @@ src/
     queries/                Server-side read helpers for RSC prefetching
     actions/                Server actions for selected form flows
     lib/                    DB, JWT, cookies, auth guard, mailer, response helpers
-    repositories/           Repository layer for user persistence
+    repositories/           Early repository placeholder; current persistence mainly uses services/models
 
   components/
     common/                 Shared UI primitives and feature-neutral components
@@ -319,6 +319,22 @@ It does three things:
 
 The matcher excludes static assets, optimized images, favicon, and public files so the proxy does not run unnecessarily for asset requests.
 
+### `next/dynamic` And Browser-Only UI
+
+The app uses `next/dynamic` with `ssr: false` for components that depend on browser-only behavior or should not be part of the server-rendered HTML.
+
+Verified examples:
+
+- `src/app/(auth)/login/LoginClient.tsx` dynamically imports `LoginPage` with SSR disabled because the login screen hydrates client auth state.
+- `ImageUploader` is dynamically loaded in listing/profile forms because it depends on file/dropzone browser APIs.
+- Contact and policy modals are dynamically loaded so modal code is split away from the first render path.
+
+Why:
+
+- Avoids hydration mismatch for browser-owned state.
+- Keeps server components free of client-only APIs.
+- Splits modal/upload UI out of the initial route bundle.
+
 ## Component Breaking And Reusability
 
 The codebase separates components by responsibility.
@@ -423,6 +439,28 @@ Why:
 
 App Router layouts live in `src/app`, while reusable visual layout components live in `src/components/layouts`.
 
+### Static Data Constants
+
+Shared static values live in `src/utils/globalStaticData.ts`.
+
+Currently centralized there:
+
+- Landing hero image URLs.
+- Job type labels and filter option arrays.
+- Marketplace category background/text colors.
+- Shop category items.
+- Days of the week for shop timing displays.
+- Footer navigation groups.
+- Account sidebar links used by `UserLayout`.
+- Reset-password decorative sizing constants.
+- `formatPrice()` for consistent price display.
+
+Why:
+
+- Domain labels and option lists are not duplicated across cards, filters, and layouts.
+- Navigation changes can be made in one file.
+- Styling constants that map to business categories stay consistent across marketplace UI.
+
 ## Hooks Architecture
 
 Hooks keep form, query, filter, mutation, and upload behavior out of view components.
@@ -494,18 +532,19 @@ Browser requests route
 
 ```text
 Login form
-  -> React Hook Form + validation
-  -> auth API/server action
-  -> backend validate()
+  -> useActionState submits a server action
+  -> server action validates form data or delegates to auth service
   -> auth.service.loginUser()
   -> MongoDB user lookup
   -> bcrypt password compare
   -> JWT access + refresh token generation
   -> refresh token hash stored in MongoDB
   -> httpOnly cookies set
-  -> Zustand auth store updated for client guard
+  -> temporary readable auth-user cookie hydrates Zustand auth store
   -> router navigates to protected area
 ```
+
+Login and registration are implemented through server actions in `src/modules/auth/actions/auth.actions.ts`. This keeps the auth form submission on the server path while still letting the client hydrate auth state before navigation.
 
 ### Protected Page Workflow
 
@@ -591,6 +630,8 @@ Forgot password form
   -> reset token fields are cleared
 ```
 
+Forgot-password and reset-password forms also use server actions in the auth module, while API routes remain available under `/api/auth/*` for programmatic clients.
+
 ## Frontend Data Flow
 
 The browser talks to the Next.js backend through a single Axios client.
@@ -631,7 +672,7 @@ Route Handler
   -> getAuthUser / authorize when needed
   -> validate with Zod
   -> service
-  -> model/query/repository
+  -> model/query helper
   -> MongoDB
   -> success/error response helper
 ```
@@ -644,6 +685,69 @@ Why this structure is used:
 - Models define persistence shape.
 - Queries support server components and detail-page prefetching.
 - `withErrorHandler` keeps response formatting consistent.
+
+### Database Connection Caching
+
+`connectDB()` in `src/backend/lib/db.ts` is called at the start of service/query functions and caches the Mongoose connection on `global._mongooseConn`.
+
+Why:
+
+- Next.js Route Handlers may run in serverless-style cold starts.
+- Calling `connectDB()` inside each backend function guarantees a connection exists.
+- The global cache prevents repeated MongoDB connection creation during hot reloads and repeated requests.
+
+### Validation And Response Helpers
+
+Backend input validation goes through `validate()` in `src/backend/lib/validate.ts`.
+
+Behavior:
+
+- Parses request data with a Zod schema.
+- Converts Zod issues into an `AppError`.
+- Uses `VALIDATION_ERROR` and structured `details` so clients can show predictable messages.
+
+Response helpers live in `src/backend/lib/response.ts`:
+
+- `sendSuccess(data, message, statusCode)` returns the standard success shape.
+- `sendError(...)` exists as a manual fallback, but route handlers normally rely on `withErrorHandler`.
+
+`withErrorHandler()` is the route-level error boundary:
+
+- Returns `AppError` instances with their explicit HTTP status and `errorCode`.
+- Converts unknown failures into `INTERNAL_SERVER_ERROR`.
+- Hides internal error messages in production.
+
+### Server Actions
+
+The project uses server actions in two places:
+
+- `src/modules/auth/actions/auth.actions.ts` is actively used by login, register, forgot-password, and reset-password pages.
+- `src/backend/actions/*` contains server-action variants for auth, listed products, and requested products.
+
+Why they exist beside Route Handlers:
+
+- Route Handlers are the main API surface for React Query, Axios, admin clients, and Swagger-documented HTTP access.
+- Server actions are useful for form submissions that should execute directly on the server without an extra client API wrapper.
+- Both paths reuse backend services so the business rules stay centralized.
+
+### Backend Query Layer
+
+`src/backend/queries` contains server-side read helpers used by server components and metadata generation.
+
+Examples:
+
+- Detail pages call query helpers before rendering and place the result into React Query cache.
+- `generateMetadata()` uses the same backend read path to build record-specific metadata.
+
+Why:
+
+- Server components can fetch from the database without going through Axios.
+- Read logic stays close to backend models and services.
+- Detail pages can return `notFound()` before the client view renders.
+
+### Repository Status
+
+`src/backend/repositories/user.repository.ts` currently exists as a placeholder/stub. The active backend persistence path in this codebase is the service layer calling Mongoose models directly.
 
 ## Backend Features
 
@@ -982,6 +1086,29 @@ Why:
 
 `queryKeys` centralizes cache keys so every feature uses stable, predictable cache identities.
 
+### Query Key Registry
+
+`src/lib/react-query/queryKeys.ts` defines the cache identity for every domain:
+
+- `auth.profile`
+- `jobs.all(params)` and `jobs.byId(id)`
+- `shops.all(params)` and `shops.byId(id)`
+- `listedProducts.all(params)` and `listedProducts.byId(id)`
+- `requestedProducts.all(params)` and `requestedProducts.byId(id)`
+- `users.all` and `users.byId(id)`
+
+Why:
+
+- Mutations can invalidate the exact list/detail cache they affect.
+- Server prefetching and client hooks use the same key shape.
+- Cache-key spelling does not drift between modules.
+
+### `createQuery` Factory
+
+`src/lib/react-query/createQuery.ts` wraps `useQuery` into a small factory for fixed read hooks.
+
+It is best suited for simple reads where the query key and query function are known up front. Hooks that need runtime params, dynamic options, pagination, or conditional enabling use `useQuery` directly with `queryKeys`.
+
 ## API Factory And Axios Pattern
 
 The project uses a shared API layer under `src/lib/axios`.
@@ -992,6 +1119,18 @@ Why:
 - Auth refresh behavior is centralized.
 - API modules stay small and feature-specific.
 - Same-origin `/api/*` requests work locally and in production without separate frontend API URLs.
+
+### `createApi` Factory
+
+`src/lib/axios/apiFactory.ts` provides a typed CRUD-style wrapper for a base path:
+
+- `get`
+- `post`
+- `put`
+- `patch`
+- `delete`
+
+Feature API modules can create small clients such as `createApi('/api/jobs')` and keep endpoint construction consistent while still using the shared Axios interceptor behavior.
 
 ## State Management
 
@@ -1007,6 +1146,8 @@ Important note:
 
 - httpOnly cookies remain the real server auth source.
 - Zustand is used for client UX and route guarding, not as the source of secure token truth.
+- Store helpers under `src/lib/zustand` provide a small wrapper around store creation and persistence.
+- The auth store persists user-facing auth state, while secure token material stays in cookies.
 
 ## Validation Strategy
 
@@ -1040,6 +1181,15 @@ Why:
 - Global files define broad design tokens and reset behavior.
 - CSS Modules prevent component class-name collisions.
 - Feature components keep their styles beside their UI code.
+
+CSS support files:
+
+- `src/styles/variables.css` keeps design tokens and repeated values.
+- `src/styles/utilities.css` contains shared utility classes.
+- `src/styles/pages.css` contains broader page-level styles.
+- `src/styles/design.css` centralizes additional design imports and global styling helpers.
+
+CSS Modules remain the default for component-specific layout and visual rules.
 
 ## Next.js Optimizations In The Project
 
@@ -1195,6 +1345,28 @@ Benefits:
 - The admin panel can still consume the same API through controlled CORS.
 
 The optional external Bright College Hub Express API is treated as separate infrastructure. Core auth, marketplace, jobs, shops, CMS, and account logic live in this Next.js project.
+
+## Verified From Onboarding
+
+The onboarding guide also describes a few patterns that were checked against the current code before being included here.
+
+Included because they are present:
+
+- `next/dynamic` with `ssr: false` for browser-only login, uploader, modal, and policy UI.
+- `globalStaticData.ts` for shared labels, links, options, colors, and formatting.
+- Mongoose connection caching in `connectDB()`.
+- Zod `validate()` and `withErrorHandler()` as the backend validation/error boundary path.
+- Route Handlers as the primary backend API layer.
+- Server actions for auth forms and additional backend action variants.
+- React Query query-key registry, hydration, and cache invalidation.
+- Same-origin Axios client with cookie refresh handling.
+- CDN image upload through Cloudinary, with ImgBB support present as a fallback helper.
+
+Not included as active project behavior:
+
+- Bundle analyzer workflow from onboarding, because the current `package.json` and `next.config.ts` do not include analyzer wiring.
+- Repository pattern as a production persistence layer, because the current repository file is a stub and real persistence is handled through services plus Mongoose models.
+- Beginner-focused learning roadmap material, because this README is intended as a technical project explanation.
 
 ## Technical Reading Order
 
