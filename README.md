@@ -22,11 +22,10 @@ The main purpose of this README is to explain the project technically: what is i
 
 ## Live URL
 
-- Live app: `https://bright-college-hub-next.vercel.app`
-- Local app: `http://localhost:3000`
-- API docs locally: `http://localhost:3000/api-docs`
-- Swagger JSON/UI route: `http://localhost:3000/api/swagger`
-- Admin panel origin currently allowed by CORS: `https://bright-college-admin-react.vercel.app`
+- Live app: [https://bright-college-hub-next.vercel.app](https://bright-college-hub-next.vercel.app)
+- Login with: `collage-user@yopmail.com` / `12345678`
+
+- Admin panel origin currently allowed by CORS: [https://bright-college-admin-react.vercel.app](https://bright-college-admin-react.vercel.app)
 
 ## How To Run The Project
 
