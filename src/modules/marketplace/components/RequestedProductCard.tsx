@@ -17,7 +17,7 @@ export default function RequestedProductCard({ item, variant = 'main' }: Request
   if (variant === 'compact') {
     return (
       <div className="mp-card">
-        <div className="mp-card-img" style={{ background: 'linear-gradient(135deg,#1a1a2e,#2d2db0)', position: 'relative' }}>
+        <div className={`mp-card-img ${styles.mpCardImgBg}`}>
           {item.images[0]
             ? <FallbackImage src={item.images[0]} alt={item.name} fill sizes="(max-width: 768px) 100vw, 300px" className={styles.mpCardImgCoverDim} />
             : <MessageCircle size={56} color="white" strokeWidth={1} />
@@ -26,7 +26,7 @@ export default function RequestedProductCard({ item, variant = 'main' }: Request
         </div>
         <div className="mp-card-body">
           <div className="mp-card-category">
-            <span className={styles.catBadge} style={{ background: '#fce7f3', color: '#9d174d' }}>
+            <span className={styles.catBadgeRequest}>
               {categoryLabel}
             </span>
             {item.isFulfilled && <span className={styles.fulfilledBadge}>Fulfilled</span>}
@@ -44,15 +44,15 @@ export default function RequestedProductCard({ item, variant = 'main' }: Request
   }
 
   return (
-    <Link href={`/marketplace/request/${item._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link href={`/marketplace/request/${item._id}`} className={styles.mpCardLink}>
       <div className="mp-card">
-        <div className={`mp-card-img ${styles.mpCardImgWrap}`} style={{ background: 'linear-gradient(135deg,#1a1a2e,#2d2db0)', position: 'relative' }}>
+        <div className={`mp-card-img ${styles.mpCardImgWrap} ${styles.mpCardImgBg}`}>
           <FallbackImage src={item.images[0]} alt={item.name} fill sizes="(max-width: 768px) 100vw, 300px" className={styles.mpCardImgDim} />
           <span className="mp-card-price">${item.price.from}–${item.price.to}</span>
         </div>
         <div className="mp-card-body">
           <div className="mp-card-category">
-            <span className={styles.catBadge} style={{ background: '#fce7f3', color: '#9d174d' }}>
+            <span className={styles.catBadgeRequest}>
               {categoryLabel}
             </span>
             {item.isFulfilled && <span className={styles.fulfilledBadge}>Fulfilled</span>}

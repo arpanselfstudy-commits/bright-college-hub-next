@@ -71,4 +71,10 @@
   --header-height: 64px;
   --sidebar-width: 220px;
   --content-max:   1100px;
+
+  /* Breakpoints (for reference only — use literal px values in @media queries) */
+  --bp-mobile:  767px;   /* max-width for mobile queries  */
+  --bp-tablet:  768px;   /* min-width for tablet queries  */
+  --bp-desktop: 1024px;  /* min-width for desktop queries */
+  --sidebar-width-collapsed: 56px; /* icon-only sidebar at tablet */
 }

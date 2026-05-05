@@ -35,7 +35,10 @@ export default function Search({
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.icon} style={{ fontSize: iconSize }}>🔍</span>
+      <span
+        className={styles.iconDynamic}
+        style={{ '--icon-size': `${iconSize}px` } as React.CSSProperties}
+      >🔍</span>
 
       <input
         type="text"

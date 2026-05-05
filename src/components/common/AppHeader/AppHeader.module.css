@@ -27,6 +27,7 @@
   color: var(--color-primary);
 }
 
+/* ── Desktop nav links ───────────────────────────────── */
 .navLinks {
   display: flex;
   gap: var(--space-8);
@@ -45,9 +46,7 @@
   transition: color var(--transition-fast);
 }
 
-.navLink:hover {
-  color: var(--color-primary);
-}
+.navLink:hover { color: var(--color-primary); }
 
 .navLink--active {
   color: var(--color-primary);
@@ -55,6 +54,7 @@
   border-bottom-color: var(--color-primary);
 }
 
+/* ── Right side (avatar) — desktop/tablet only ───────── */
 .navRight {
   display: flex;
   align-items: center;
@@ -62,9 +62,7 @@
 }
 
 /* ── Avatar dropdown ─────────────────────────────────── */
-.avatarWrap {
-  position: relative;
-}
+.avatarWrap { position: relative; }
 
 .avatar {
   width: 36px;
@@ -79,7 +77,6 @@
   font-weight: 700;
   border: 2px solid var(--color-surface-high);
   overflow: hidden;
-  text-decoration: none;
   cursor: pointer;
   padding: 0;
   position: relative;
@@ -156,7 +153,7 @@
 .dropdownDivider {
   height: 1px;
   background: var(--color-border);
-  margin: 4px 4px;
+  margin: 4px;
 }
 
 .dropdownItem {
@@ -182,11 +179,103 @@
   color: var(--color-primary);
 }
 
-.dropdownItem--danger {
-  color: var(--color-error);
+.dropdownItem--danger { color: var(--color-error); }
+.dropdownItem--danger:hover { background: #fff1f0; color: var(--color-error); }
+
+/* ── Hamburger button — mobile only ─────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+.hamburger:hover { background: var(--color-surface-low); }
+
+.hamburgerLine {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
 }
 
-.dropdownItem--danger:hover {
-  background: #fff1f0;
-  color: var(--color-error);
+/* ── Mobile slide-down menu ──────────────────────────── */
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-4);
+  gap: 2px;
+  box-shadow: 0 4px 16px rgba(11, 28, 48, 0.08);
+  position: sticky;
+  top: var(--header-height);
+  z-index: 49;
+}
+
+.mobileMenuOpen { display: flex; }
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.mobileNavLink:hover {
+  background: var(--color-surface-low);
+  color: var(--color-primary);
+}
+
+.mobileNavLink--active {
+  color: var(--color-primary);
+  font-weight: 700;
+  background: var(--color-primary-light);
+}
+
+.mobileNavLink--danger { color: var(--color-error); }
+.mobileNavLink--danger:hover { background: #fff1f0; color: var(--color-error); }
+
+.mobileDivider {
+  height: 1px;
+  background: var(--color-border-light);
+  margin: var(--space-2) 0;
+}
+
+/* ── Responsive breakpoints ──────────────────────────── */
+
+/* Mobile only (≤767px): show hamburger, hide nav links and avatar */
+@media (max-width: 767px) {
+  .nav        { padding: 0 var(--space-4); }
+  .hamburger  { display: flex; }
+  .navLinks   { display: none; }
+  .navRight   { display: none; }
+}
+
+/* Tablet and above (≥768px): hide hamburger and mobile menu, show nav + avatar */
+@media (min-width: 768px) {
+  .hamburger  { display: none; }
+  .navRight   { display: flex; }
+  .mobileMenu { display: none !important; }
 }

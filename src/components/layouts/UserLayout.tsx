@@ -9,6 +9,15 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
     <div className={styles.layout}>
       <Header />
 
+      <nav className={styles.tabBar}>
+        {SIDEBAR_LINKS.map((item) => (
+          <Link key={item.href} href={item.href} className={styles.tabBarLink}>
+            <span>{item.icon}</span>
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+
       <div className={styles.body}>
         <aside className={styles.sidebar}>
           <div className={styles.sidebarLabel}>My Account</div>

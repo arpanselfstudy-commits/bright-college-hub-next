@@ -198,3 +198,37 @@
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ── LandingShops skeleton card shimmer ─────────────────── */
+.shopCardSkeleton {
+  background: #e5e7eb;
+}
+
+.shopCardShimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── LandingHero image cover ────────────────────────────── */
+.heroImgCover {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .jobsGrid  { grid-template-columns: 1fr; }
+  .shopsGrid { grid-template-columns: 1fr; }
+  .mpGrid3   { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .jobsGrid  { grid-template-columns: repeat(2, 1fr); }
+  .shopsGrid { grid-template-columns: repeat(2, 1fr); }
+  .mpGrid3   { grid-template-columns: repeat(2, 1fr); }
+}

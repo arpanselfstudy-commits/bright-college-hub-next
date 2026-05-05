@@ -18,14 +18,14 @@ export interface ShopDetailViewProps {
 }
 
 export default function ShopDetailView({ shop, isLoading }: ShopDetailViewProps) {
-  if (isLoading) return <div style={{ minHeight: '100vh', background: '#f8faff' }}><PageLoader /></div>
+  if (isLoading) return <div className={styles.loadingPage}><PageLoader /></div>
 
   if (!shop) return (
     <div className={styles.notFound}>
       <div className={styles.notFoundBody}>
         <StoreIcon size={48} color="#9ca3af" strokeWidth={1} />
         <p>Shop not found.</p>
-        <Link href="/shops" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+        <Link href="/shops" className={styles.notFoundLink}>
           <BackButton href="/shops" label="Back to Shops" />
         </Link>
       </div>

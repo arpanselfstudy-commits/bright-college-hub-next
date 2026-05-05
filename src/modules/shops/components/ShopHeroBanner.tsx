@@ -15,7 +15,7 @@ export default function ShopHeroBanner({ shop }: ShopHeroBannerProps) {
   const isOpenToday = shop.shopTiming?.[todayKey]?.isOpen
 
   return (
-    <div className={styles.heroBanner} style={{ position: 'relative' }}>
+    <div className={styles.heroBanner}>
       <FallbackImage
         src={shop.photo || shop.photos?.[0]}
         alt={shop.name}
@@ -27,19 +27,10 @@ export default function ShopHeroBanner({ shop }: ShopHeroBannerProps) {
       <div className={styles.heroBannerOverlay} />
       <div className={styles.heroBannerContent}>
         <div className={styles.heroBadgeRow}>
-          <span
-            className={styles.heroBadge}
-            style={{
-              background: isOpenToday ? '#dcfce7' : '#fef2f2',
-              color: isOpenToday ? '#166534' : '#991b1b',
-            }}
-          >
+          <span className={isOpenToday ? styles.heroBadgeOpen : styles.heroBadgeClosed}>
             {isOpenToday ? '● Open Now' : '● Closed'}
           </span>
-          <span
-            className={styles.heroBadge}
-            style={{ background: 'rgba(255,255,255,0.15)', color: 'white' }}
-          >
+          <span className={styles.heroBadgeType}>
             {shop.type}
           </span>
         </div>

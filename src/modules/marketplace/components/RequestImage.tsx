@@ -12,7 +12,7 @@ interface RequestImageProps {
 
 export default function RequestImage({ imageSrc, name, isFulfilled }: RequestImageProps) {
   return (
-    <div className={styles.imgWrap} style={{ position: 'relative' }}>
+    <div className={styles.imgWrap}>
       {imageSrc ? (
         <FallbackImage
           src={imageSrc}
@@ -25,13 +25,7 @@ export default function RequestImage({ imageSrc, name, isFulfilled }: RequestIma
       ) : (
         <MessageCircle size={80} color="rgba(255,255,255,0.2)" strokeWidth={1} />
       )}
-      <span
-        className={styles.statusBadge}
-        style={{
-          background: isFulfilled ? '#dcfce7' : '#2a14b4',
-          color: isFulfilled ? '#166534' : 'white',
-        }}
-      >
+      <span className={isFulfilled ? styles.statusBadgeFulfilled : styles.statusBadgeActive}>
         {isFulfilled ? 'Fulfilled' : 'Active Request'}
       </span>
     </div>

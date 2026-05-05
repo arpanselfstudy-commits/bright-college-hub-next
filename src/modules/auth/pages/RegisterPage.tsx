@@ -9,6 +9,7 @@ import { registerAction } from '../actions/auth.actions'
 import AuthLogo from '../components/common/AuthLogo'
 import { FormError } from '@/components/common'
 import Input from '@/components/common/Input/Input'
+import styles from './RegisterPage.module.css'
 
 const PolicyModal = dynamic(() => import('@/components/common/PolicyModal/PolicyModal'), { ssr: false })
 
@@ -24,24 +25,24 @@ export default function RegisterPage() {
   const passwordMismatch = confirmValue.length > 0 && confirmValue !== passwordValue
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f0f4ff' }}>
-      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '420px 1fr', gap: 24, maxWidth: 960, margin: '0 auto', width: '100%', alignItems: 'center', padding: 24 }}>
-        <div className="auth-left--register" style={{ borderRadius: 16, padding: 32, display: 'flex', flexDirection: 'column', minHeight: 580 }}>
+    <div className={styles.page}>
+      <div className={styles.body}>
+        <div className={`auth-left--register ${styles.leftPanel}`}>
           <AuthLogo white />
-          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, margin: '8px 0 20px' }}>
+          <p className={styles.leftSub}>
             The Academic Atelier for the modern scholar and creator.
           </p>
           <div className="register-img-card">
-            <div style={{ height: 200, background: 'linear-gradient(135deg,#c8d8f8,#a5b4fc)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3730d4' }}>
+            <div className={styles.imgCard}>
               <GraduationCap size={80} strokeWidth={1} />
             </div>
           </div>
-          <p className="register-quote" style={{ marginTop: 'auto' }}>
+          <p className={`register-quote ${styles.quote}`}>
             &ldquo;Design is not just what it looks like and feels like. Design is how it works.&rdquo;
           </p>
         </div>
 
-        <div style={{ background: 'white', borderRadius: 16, padding: '40px 48px' }}>
+        <div className={styles.rightPanel}>
           <h2 className="auth-form-title">Create your account</h2>
           <p className="auth-form-subtitle">Join a community of thousands of students and shops.</p>
 
@@ -54,7 +55,7 @@ export default function RegisterPage() {
               <Input label="Email Address" name="email" type="email" placeholder="alex@campus.edu" />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className={styles.passwordGrid}>
               <div className="form-group">
                 <Input
                   label="Password"
@@ -83,7 +84,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="form-check" style={{ marginBottom: 24 }}>
+            <div className={`form-check ${styles.checkboxRow}`}>
               <input type="checkbox" id="terms" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
               <label htmlFor="terms">
                 I agree to the{' '}
@@ -97,17 +98,16 @@ export default function RegisterPage() {
               <FormError message={state.message} />
             )}
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div className={styles.submitRow}>
               <button
-                className="btn btn-primary"
+                className={`btn btn-primary ${styles.submitBtn}`}
                 type="submit"
-                style={{ width: 'auto', padding: '13px 28px' }}
                 disabled={isPending || passwordMismatch || !agreed}
               >
                 {isPending ? 'Creating…' : 'Create Account'}
               </button>
-              <span style={{ fontSize: 14, color: '#6b7280' }}>
-                Already have an account? <Link href="/login" style={{ color: '#3730d4', fontWeight: 600 }}>Sign in</Link>
+              <span className={styles.signInText}>
+                Already have an account? <Link href="/login" className={styles.signInLink}>Sign in</Link>
               </span>
             </div>
           </form>

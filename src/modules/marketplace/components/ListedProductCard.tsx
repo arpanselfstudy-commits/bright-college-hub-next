@@ -17,9 +17,9 @@ export default function ListedProductCard({ item, variant = 'main' }: ListedProd
 
   if (variant === 'compact') {
     return (
-      <Link href={`/marketplace/${item._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link href={`/marketplace/${item._id}`} className={styles.mpCardLink}>
         <div className="mp-card">
-          <div className="mp-card-img" style={{ background: '#f0f4ff', position: 'relative' }}>
+          <div className={`mp-card-img ${styles.mpCardImgLight}`}>
             {item.images[0]
               ? <FallbackImage src={item.images[0]} alt={item.productName} fill sizes="(max-width: 768px) 100vw, 300px" className={styles.mpCardImgCover} />
               : <ShoppingBag size={56} color="#3730d4" strokeWidth={1} />
@@ -28,10 +28,10 @@ export default function ListedProductCard({ item, variant = 'main' }: ListedProd
           </div>
           <div className="mp-card-body">
             <div className="mp-card-category">
-              <span className={styles.catBadge} style={{ background: '#e0e7ff', color: '#3730a3' }}>
+              <span className={styles.catBadgeBlue}>
                 {item.category.toUpperCase()}
               </span>
-              <span style={{ color: '#9ca3af', fontSize: 11 }}>{item.condition}</span>
+              <span className={styles.conditionText}>{item.condition}</span>
             </div>
             <div className="mp-card-title">{item.productName}</div>
             <div className="mp-card-seller">
@@ -47,15 +47,21 @@ export default function ListedProductCard({ item, variant = 'main' }: ListedProd
   }
 
   return (
-    <Link href={`/marketplace/${item._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link href={`/marketplace/${item._id}`} className={styles.mpCardLink}>
       <div className="mp-card">
-        <div className={`mp-card-img ${styles.mpCardImgWrap}`} style={{ background: CATEGORY_BG[item.category] ?? '#f0f4ff', position: 'relative' }}>
+        <div
+          className={`mp-card-img ${styles.mpCardImgWrap} ${styles.mpCardImgDynamic}`}
+          style={{ '--cat-bg': CATEGORY_BG[item.category] ?? '#f0f4ff' } as React.CSSProperties}
+        >
           <FallbackImage src={item.images[0]} alt={item.productName} fill sizes="(max-width: 768px) 100vw, 300px" className={styles.mpCardImgCover} />
           <span className="mp-card-price">{formatPrice(item.price)}</span>
         </div>
         <div className="mp-card-body">
           <div className="mp-card-category">
-            <span className={styles.catBadge} style={{ background: CATEGORY_BG[item.category] ?? '#e5e7eb', color: CATEGORY_TEXT[item.category] ?? '#374151' }}>
+            <span
+              className={styles.catBadgeDynamic}
+              style={{ '--cat-bg': CATEGORY_BG[item.category] ?? '#e5e7eb', '--cat-text': CATEGORY_TEXT[item.category] ?? '#374151' } as React.CSSProperties}
+            >
               {categoryLabel}
             </span>
             <span className="mp-card-time">{item.condition}</span>

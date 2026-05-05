@@ -40,15 +40,14 @@ export default function ProfileProductCard({
   return (
     <div className={styles.productCard}>
       <div
-        className={`${styles.productCardImg} ${dimImage ? styles.productCardImgDim : ''}`}
-        style={dimImage ? { background: 'linear-gradient(135deg,#1a1a2e,#2d2db0)', position: 'relative' } : { position: 'relative' }}
+        className={`${styles.productCardImg} ${dimImage ? styles.productCardImgDim : ''} ${dimImage ? styles.productCardImgDimBg : ''}`}
       >
         {imageSrc
           ? <FallbackImage src={imageSrc} alt={imageAlt} fill sizes="(max-width: 768px) 100vw, 300px" />
           : imageFallback}
         <span
-          className={styles.productCardBadge}
-          style={{ background: badgeBg, color: badgeColor }}
+          className={styles.productCardBadgeDynamic}
+          style={{ '--badge-bg': badgeBg, '--badge-color': badgeColor } as React.CSSProperties}
         >
           {badgeLabel}
         </span>

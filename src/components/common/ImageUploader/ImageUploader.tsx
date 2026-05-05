@@ -68,7 +68,7 @@ export default function ImageUploader({
       type="file"
       accept={accept}
       disabled={isUploading}
-      style={{ display: 'none' }}
+      className={styles.hiddenInput}
       onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
     />
   )

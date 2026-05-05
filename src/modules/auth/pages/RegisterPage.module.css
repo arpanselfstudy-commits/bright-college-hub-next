@@ -1,0 +1,135 @@
+/* ── RegisterPage ───────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f4ff;
+}
+
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  align-items: center;
+  padding: 24px;
+}
+
+.leftPanel {
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  min-height: 580px;
+}
+
+.leftSub {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin: 8px 0 20px;
+}
+
+.imgCard {
+  height: 200px;
+  background: linear-gradient(135deg, #c8d8f8, #a5b4fc);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3730d4;
+}
+
+.quote {
+  margin-top: auto;
+}
+
+.rightPanel {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 48px;
+}
+
+.passwordGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.checkboxRow {
+  margin-bottom: 24px;
+}
+
+.submitRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.submitBtn {
+  width: auto;
+  padding: 13px 28px;
+}
+
+.signInText {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.signInLink {
+  color: #3730d4;
+  font-weight: 600;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  .body {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 0;
+  }
+
+  /* Hide decorative left panel */
+  .leftPanel {
+    display: none;
+  }
+
+  .rightPanel {
+    padding: 32px 20px;
+    width: 100%;
+  }
+
+  /* Password fields: collapse from two columns to one */
+  .passwordGrid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Submit row: stack vertically */
+  .submitRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .submitBtn {
+    width: 100%;
+    padding: 14px;
+  }
+}
+
+/* Tablet (768px–1023px): both panels side by side at 50% each */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .body {
+    grid-template-columns: 1fr 1fr;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .rightPanel {
+    padding: 32px 24px;
+  }
+}

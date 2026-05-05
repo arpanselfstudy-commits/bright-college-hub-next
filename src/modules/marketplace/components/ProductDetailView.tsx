@@ -24,14 +24,14 @@ export interface ProductDetailViewProps {
 }
 
 export default function ProductDetailView({ product, isLoading, activeImg, onImgChange, showContact, onShowContact, onCloseContact }: ProductDetailViewProps) {
-  if (isLoading) return <div style={{ minHeight: '100vh', background: '#f8faff' }}><PageLoader /></div>
+  if (isLoading) return <div className={styles.loadingPage}><PageLoader /></div>
 
   if (!product) return (
     <div className={styles.notFound}>
       <div className={styles.notFoundBody}>
         <ShoppingBag size={48} color="#9ca3af" strokeWidth={1} />
         <p>Product not found.</p>
-        <Link href="/marketplace" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+        <Link href="/marketplace" className={styles.notFoundLink}>
           <BackButton href="/marketplace" label="Back to Marketplace" />
         </Link>
       </div>

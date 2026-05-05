@@ -45,12 +45,12 @@ export default function PolicyModal({ type, onClose }: PolicyModalProps) {
         </div>
         <div className={styles.body}>
           {loading && <SectionLoader />}
-          {error && <p className={styles.para} style={{ color: '#e53e3e' }}>Failed to load content. Please try again.</p>}
+          {error && <p className={styles.paraError}>Failed to load content. Please try again.</p>}
           {!loading && !error && content && (
             <div className={styles.htmlContent} dangerouslySetInnerHTML={{ __html: content }} />
           )}
           {!loading && !error && !content && (
-            <p className={styles.para} style={{ color: '#9ca3af' }}>No content available.</p>
+            <p className={styles.paraMuted}>No content available.</p>
           )}
         </div>
       </div>

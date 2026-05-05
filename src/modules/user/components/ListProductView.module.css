@@ -1,0 +1,289 @@
+/* ── ListProductView ────────────────────────────────────── */
+.wrapper {
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 40px 32px;
+}
+
+.backWrap {
+  margin-bottom: 24px;
+}
+
+.heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #0b1c30;
+  margin-bottom: 6px;
+}
+
+.subText {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
+/* ── Two-column layout ──────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── Form panel ─────────────────────────────────────────── */
+.formPanel {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 24px rgba(11, 28, 48, 0.07);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Field helpers ──────────────────────────────────────── */
+.fieldLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.select {
+  width: 100%;
+  padding: 13px 16px;
+  background: #f3f5fb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #0b1c30;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  appearance: none;
+}
+
+.textarea {
+  width: 100%;
+  padding: 13px 16px;
+  background: #f3f5fb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #0b1c30;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  resize: none;
+  height: 90px;
+  box-sizing: border-box;
+}
+
+/* ── Condition buttons ──────────────────────────────────── */
+.conditionBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.conditionBtn {
+  flex: 1;
+  padding: 10px 4px;
+  border: none;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #e5eeff;
+  color: #0b1c30;
+  transition: background 0.15s, color 0.15s;
+}
+
+.conditionBtn--active {
+  background: #2a14b4;
+  color: white;
+}
+
+/* ── Checkbox ───────────────────────────────────────────── */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #2a14b4;
+}
+
+/* ── Contact section ────────────────────────────────────── */
+.contactSection {
+  background: #f8f9ff;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.contactTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* ── Image required warning ─────────────────────────────── */
+.imageRequired {
+  font-size: 12px;
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+/* ── Submit button ──────────────────────────────────────── */
+.submitBtn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #2a14b4, #4338ca);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Right sidebar ──────────────────────────────────────── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 80px;
+}
+
+/* ── Extra image thumbnails ─────────────────────────────── */
+.extraImages {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.extraImageItem {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #e5e7eb;
+}
+
+.extraImageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.extraImageRemove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Tip cards ──────────────────────────────────────────── */
+.tipCardOrange {
+  background: #ffddb8;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.tipCardTeal {
+  background: rgba(134, 242, 228, 0.35);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.tipIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tipTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.tipTitleOrange {
+  color: #553300;
+}
+
+.tipTitleTeal {
+  color: #006a61;
+}
+
+.tipText {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.tipTextOrange {
+  color: #653e00;
+}
+
+.tipTextTeal {
+  color: #005049;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .wrapper   { padding: 20px 16px; }
+  .layout    { grid-template-columns: 1fr; }
+  .sidebar   { display: none; }
+  .twoCol    { grid-template-columns: 1fr; }
+  .formPanel { padding: 20px 16px; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .wrapper { padding: 28px 24px; }
+  .layout  { grid-template-columns: 1fr 280px; }
+}

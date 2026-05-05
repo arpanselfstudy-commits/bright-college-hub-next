@@ -90,7 +90,7 @@ export default function MyProfileView({
             </div>
           ) : listings.length === 0 ? (
             <div className={styles.emptyState}>
-              <ShoppingBag size={40} style={{ margin: '0 auto 12px', opacity: 0.4 }} />
+              <ShoppingBag size={40} className={styles.emptyIcon} />
               <p>
                 No listings yet.{' '}
                 <Link href="/account/list-product" className={styles.emptyLink}>
@@ -132,7 +132,7 @@ export default function MyProfileView({
             </div>
           ) : requests.length === 0 ? (
             <div className={styles.emptyState}>
-              <ClipboardList size={40} style={{ margin: '0 auto 12px', opacity: 0.4 }} />
+              <ClipboardList size={40} className={styles.emptyIcon} />
               <p>
                 No requests yet.{' '}
                 <Link href="/account/request-product" className={styles.emptyLink}>

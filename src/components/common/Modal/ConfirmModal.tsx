@@ -22,24 +22,23 @@ export default function ConfirmModal({
   onConfirm,
   onCancel,
 }: ConfirmModalProps) {
+  const isDanger = variant === 'danger'
   return (
     <div className={styles.modal}>
-      <div className={styles.accentBar} style={variant === 'danger' ? { background: 'linear-gradient(to right,#ef4444,#dc2626)' } : undefined} />
+      <div className={isDanger ? styles.accentBarDanger : styles.accentBar} />
       <div className={styles.body}>
-        <div className={styles.iconWrap} style={variant === 'danger' ? { background: 'rgba(239,68,68,0.1)', color: '#ef4444' } : undefined}>
-          {variant === 'danger' ? '🗑' : '↪'}
+        <div className={isDanger ? styles.iconWrapDanger : styles.iconWrap}>
+          {isDanger ? '🗑' : '↪'}
         </div>
         <h2 className={styles.title}>{title}</h2>
         <p className={styles.desc}>{description}</p>
         <button
-          className={styles.btnPrimary}
+          className={isDanger ? styles.btnPrimaryDanger : styles.btnPrimary}
           onClick={onConfirm}
           disabled={loading}
-          style={variant === 'danger' ? { background: 'linear-gradient(135deg,#ef4444,#dc2626)', boxShadow: '0 4px 16px rgba(239,68,68,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 } : undefined}
         >
-          {loading && <Loader2 size={15} style={{ animation: 'spin 0.8s linear infinite' }} />}
+          {loading && <Loader2 size={15} className={styles.spinIcon} />}
           {confirmLabel}
-          <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
         </button>
         <button className={styles.btnGhost} onClick={onCancel} disabled={loading}>{cancelLabel}</button>
       </div>

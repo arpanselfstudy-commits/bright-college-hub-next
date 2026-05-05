@@ -35,3 +35,14 @@
 .ctaBtn { width: 100%; padding: 14px; background: linear-gradient(135deg,#2a14b4,#4338ca); color: white; border: none; border-radius: var(--radius-md); font-family: var(--font-heading); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: var(--space-2); transition: opacity var(--transition-fast); }
 .ctaBtn:hover { opacity: 0.9; }
 .ctaBtn--disabled { background: var(--color-border); color: var(--color-text-subtle); cursor: not-allowed; }
+
+
+/* ── Loading page ───────────────────────────────────────── */
+.loadingPage { min-height: 100vh; background: #f8faff; }
+
+/* ── Not-found back link ────────────────────────────────── */
+.notFoundLink { color: var(--color-primary); font-weight: 600; }
+
+/* ── Status badge variants ──────────────────────────────── */
+.statusBadgeFulfilled { position: absolute; top: 14px; left: 14px; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-full); background: #dcfce7; color: #166534; }
+.statusBadgeActive { position: absolute; top: 14px; left: 14px; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-full); background: #2a14b4; color: white; }

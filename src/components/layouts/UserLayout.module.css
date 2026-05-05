@@ -61,3 +61,53 @@
   padding: var(--space-8);
   background: var(--color-bg);
 }
+
+/* ── Mobile tab-bar ──────────────────────────────────── */
+.tabBar {
+  display: none; /* hidden at tablet+, shown on mobile via media query */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-mid);
+  padding: 0 var(--space-4);
+  gap: 0;
+  scrollbar-width: none;
+}
+.tabBar::-webkit-scrollbar { display: none; }
+
+.tabBarLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 44px;
+  min-width: 72px;
+  flex-shrink: 0;
+  padding: var(--space-2) var(--space-3);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-link);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+.tabBarLink:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* ── Responsive breakpoints ──────────────────────────── */
+@media (max-width: 767px) {
+  .tabBar   { display: flex; }
+  .sidebar  { display: none; }
+  .main     { width: 100%; padding: var(--space-4); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar       { width: var(--sidebar-width-collapsed); padding: 28px var(--space-2); }
+  .sidebarLabel  { display: none; }
+  .sidebarLink   { justify-content: center; padding: 10px; }
+  .sidebarLink span:last-child { display: none; } /* hide text label, keep icon */
+}

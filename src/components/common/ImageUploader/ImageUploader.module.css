@@ -239,3 +239,6 @@
   pointer-events: none;
   opacity: 0.7;
 }
+
+/* ── Hidden file input ──────────────────────────────────── */
+.hiddenInput { display: none; }

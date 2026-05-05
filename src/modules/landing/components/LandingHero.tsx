@@ -26,7 +26,7 @@ export default function LandingHero() {
               src={src}
               alt="Campus"
               fill
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              className={styles.heroImgCover}
               sizes="(max-width: 768px) 100vw, 300px"
             />
           </div>

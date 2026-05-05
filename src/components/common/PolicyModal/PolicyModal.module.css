@@ -99,3 +99,18 @@
 .htmlContent li { margin-bottom: 4px; }
 
 .htmlContent a { color: #2a14b4; text-decoration: underline; }
+
+/* ── Error / empty state text variants ─────────────────── */
+.paraError {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #e53e3e;
+  margin: 0;
+}
+
+.paraMuted {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #9ca3af;
+  margin: 0;
+}

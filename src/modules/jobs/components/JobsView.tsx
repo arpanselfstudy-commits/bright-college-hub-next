@@ -1,8 +1,8 @@
 'use client'
 
 import '@/styles/design.css'
-import Link from 'next/link'
-import { Briefcase } from 'lucide-react'
+import { Briefcase, SlidersHorizontal, X } from 'lucide-react'
+import { useState } from 'react'
 import { JobsSkeletonGrid } from '@/components/common/Loader/SkeletonCard'
 import SearchInput from '@/components/common/Search/Search'
 import Pagination from '@/components/common/Pagination/Pagination'
@@ -48,7 +48,19 @@ export default function JobsView({
   onClearFilters,
   page, pagination, onPageChange,
 }: JobsViewProps) {
+  const [filterOpen, setFilterOpen] = useState(false)
   const hasFilters = !!(jobType || minExperience !== '' || maxExperience !== '' || minSalary !== '' || maxSalary !== '' || deadlineFrom || deadlineTo)
+
+  const filterProps = {
+    jobType, onJobTypeChange,
+    minExperience, onMinExperienceChange,
+    maxExperience, onMaxExperienceChange,
+    minSalary, onMinSalaryChange,
+    maxSalary, onMaxSalaryChange,
+    deadlineFrom, onDeadlineFromChange,
+    deadlineTo, onDeadlineToChange,
+    onClearFilters,
+  }
 
   return (
     <div className="jobs-page">
@@ -60,25 +72,36 @@ export default function JobsView({
         </div>
       </div>
 
+      {/* Mobile filter toggle */}
+      <div className={styles.mobileFilterBar}>
+        <button className={styles.mobileFilterBtn} onClick={() => setFilterOpen(o => !o)}>
+          <SlidersHorizontal size={15} />
+          Filters
+          {hasFilters && <span className={styles.mobileFilterBadge} />}
+        </button>
+        {hasFilters && (
+          <button className={styles.mobileClearBtn} onClick={onClearFilters}>
+            <X size={13} /> Clear
+          </button>
+        )}
+      </div>
+
+      {/* Mobile filter drawer */}
+      {filterOpen && (
+        <div className={styles.mobileFilterDrawer}>
+          <div className={styles.mobileFilterDrawerHeader}>
+            <span>Filters</span>
+            <button className={styles.mobileFilterClose} onClick={() => setFilterOpen(false)}>
+              <X size={18} />
+            </button>
+          </div>
+          <JobsFilter {...filterProps} />
+        </div>
+      )}
+
       <div className="jobs-layout">
-        <aside className="jobs-sidebar">
-          <JobsFilter
-            jobType={jobType}
-            onJobTypeChange={onJobTypeChange}
-            minExperience={minExperience}
-            onMinExperienceChange={onMinExperienceChange}
-            maxExperience={maxExperience}
-            onMaxExperienceChange={onMaxExperienceChange}
-            minSalary={minSalary}
-            onMinSalaryChange={onMinSalaryChange}
-            maxSalary={maxSalary}
-            onMaxSalaryChange={onMaxSalaryChange}
-            deadlineFrom={deadlineFrom}
-            onDeadlineFromChange={onDeadlineFromChange}
-            deadlineTo={deadlineTo}
-            onDeadlineToChange={onDeadlineToChange}
-            onClearFilters={onClearFilters}
-          />
+        <aside className={`jobs-sidebar ${styles.desktopSidebar}`}>
+          <JobsFilter {...filterProps} />
         </aside>
 
         <div>
@@ -92,7 +115,7 @@ export default function JobsView({
 
           {isLoading ? <JobsSkeletonGrid count={9} /> : jobs.length === 0 ? (
             <div className={styles.emptyState}>
-              <Briefcase size={48} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
+              <Briefcase size={48} className={styles.emptyIcon} />
               <p>No jobs found. Try adjusting your filters.</p>
               {hasFilters && <button className={styles.clearFiltersBtn} onClick={onClearFilters}>Clear filters</button>}
             </div>

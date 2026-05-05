@@ -1,6 +1,8 @@
 'use client'
 
 import '@/styles/design.css'
+import { SlidersHorizontal, X } from 'lucide-react'
+import { useState } from 'react'
 import { ShopsSkeletonGrid } from '@/components/common/Loader/SkeletonCard'
 import SearchInput from '@/components/common/Search/Search'
 import Pagination from '@/components/common/Pagination/Pagination'
@@ -28,6 +30,9 @@ export default function ShopsView({
   onClearFilters,
   pagination, page, onPageChange,
 }: ShopsViewProps) {
+  const [filterOpen, setFilterOpen] = useState(false)
+  const hasFilters = !!openDay
+
   return (
     <div className="shops-page">
       <div className="shops-hero">
@@ -37,8 +42,36 @@ export default function ShopsView({
           <SearchInput placeholder="Search shops, items..." defaultValue={search} onSearch={onSearchChange} />
         </div>
       </div>
+
+      {/* Mobile filter toggle */}
+      <div className={styles.mobileFilterBar}>
+        <button className={styles.mobileFilterBtn} onClick={() => setFilterOpen(o => !o)}>
+          <SlidersHorizontal size={15} />
+          Filters
+          {hasFilters && <span className={styles.mobileFilterBadge} />}
+        </button>
+        {hasFilters && (
+          <button className={styles.mobileClearBtn} onClick={onClearFilters}>
+            <X size={13} /> Clear
+          </button>
+        )}
+      </div>
+
+      {/* Mobile filter drawer */}
+      {filterOpen && (
+        <div className={styles.mobileFilterDrawer}>
+          <div className={styles.mobileFilterDrawerHeader}>
+            <span>Filters</span>
+            <button className={styles.mobileFilterClose} onClick={() => setFilterOpen(false)}>
+              <X size={18} />
+            </button>
+          </div>
+          <ShopsFilter openDay={openDay} onOpenDayChange={onOpenDayChange} onClearFilters={onClearFilters} />
+        </div>
+      )}
+
       <div className="shops-layout">
-        <aside className="shops-sidebar">
+        <aside className={`shops-sidebar ${styles.desktopSidebar}`}>
           <ShopsFilter
             openDay={openDay}
             onOpenDayChange={onOpenDayChange}

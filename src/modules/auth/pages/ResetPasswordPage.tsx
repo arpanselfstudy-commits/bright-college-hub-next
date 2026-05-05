@@ -8,6 +8,7 @@ import { resetPasswordAction } from '../actions/auth.actions'
 import { FormError } from '@/components/common'
 import Input from '@/components/common/Input/Input'
 import { usePasswordStrength } from '../hooks/usePasswordStrength'
+import styles from './ResetPasswordPage.module.css'
 
 interface Props { token: string }
 
@@ -30,38 +31,38 @@ export default function ResetPasswordPage({ token }: Props) {
 
   if (!token) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f0f4ff' }}>
-        <div style={{ textAlign: 'center', padding: 48 }}>
-          <AlertTriangle size={48} color="#e53e3e" style={{ margin: '0 auto 16px' }} />
-          <p style={{ fontWeight: 600, fontSize: 18 }}>Invalid or missing reset token.</p>
+      <div className={styles.errorPage}>
+        <div className={styles.errorBody}>
+          <AlertTriangle size={48} color="#e53e3e" className={styles.errorIcon} />
+          <p className={styles.errorText}>Invalid or missing reset token.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f0f4ff', padding: 24, alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, maxWidth: 900, width: '100%', borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 40px rgba(55,48,212,0.12)' }}>
-        <div className="auth-left auth-left--dark" style={{ padding: 48, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: 560 }}>
-          <div style={{ marginBottom: 'auto', paddingTop: 8 }}>
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <div className={`auth-left auth-left--dark ${styles.leftPanel}`}>
+          <div className={styles.leftTop}>
             <div className="security-badge">
               <span className="security-badge-dot" />
               Security Protocol
             </div>
           </div>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <h2 className="auth-left-headline" style={{ color: 'white', fontSize: 36 }}>
+          <div className={styles.leftBottom}>
+            <h2 className={`auth-left-headline ${styles.leftHeadline}`}>
               Protecting your<br />
-              <span style={{ color: '#00d4aa' }}>Academic<br />Identity.</span>
+              <span className={styles.leftAccent}>Academic<br />Identity.</span>
             </h2>
-            <p className="auth-left-sub auth-left-sub--white" style={{ marginTop: 16 }}>
+            <p className={`auth-left-sub auth-left-sub--white ${styles.leftSub}`}>
               Create a robust new password to ensure your research, credits, and campus profile remain exclusively yours.
             </p>
           </div>
         </div>
 
-        <div style={{ background: 'white', padding: '48px 48px' }}>
-          <div className="cn-logo" style={{ marginBottom: 28 }}>
+        <div className={styles.rightPanel}>
+          <div className={`cn-logo ${styles.logoWrap}`}>
             <div className="cn-logo-icon"><BookOpen size={18} /></div>
             Bright Collage Hub
           </div>
@@ -132,7 +133,7 @@ export default function ResetPasswordPage({ token }: Props) {
             </button>
           </form>
 
-          <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <div className={styles.backWrap}>
             <BackButton href="/login" label="Back to Login" />
           </div>
         </div>

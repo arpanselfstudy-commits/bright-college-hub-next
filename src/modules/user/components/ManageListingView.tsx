@@ -43,14 +43,12 @@ export interface ManageListingViewProps {
   deleting: boolean
 }
 
-const selectStyle = { width: '100%', padding: '12px 14px', background: 'var(--color-surface-low)', border: '1.5px solid var(--color-border)', borderRadius: 10, fontSize: 14, color: 'var(--color-text)', fontFamily: "'Inter',sans-serif", outline: 'none', appearance: 'none' as const, boxSizing: 'border-box' as const }
-const lbl = { fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#6b7280', marginBottom: 6, display: 'block' }
 
 export default function ManageListingView({ product, isLoading, editing, onToggleEditing, register, errors, watch, setValue, onSave, onCancelEdit, onToggleAvailable, onDelete, onConfirmDelete, onCancelDelete, confirmDelete, updating, deleting }: ManageListingViewProps) {
   if (isLoading) return <div className={styles.page}><PageLoader /></div>
   if (!product) return (
     <div className={styles.page}>
-      <div className={styles.emptyState} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div className={`${styles.emptyState} ${styles.emptyStateFlex}`}>
         <ShoppingBag size={48} color="#9ca3af" strokeWidth={1} />
         <p>Product not found. <BackButton href="/account/my-profile" label="Back to profile" /></p>
       </div>
@@ -63,7 +61,7 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
   return (
     <div className={styles.page}>
       <div className={styles.contentWide}>
-        <div className={styles.pageHeader} style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 }}>
+        <div className={styles.pageHeader}>
           <BackButton href="/account/my-profile" label="Back to Profile" />
           <div>
             <div className={styles.pageHeaderTag}>Inventory Management</div>
@@ -73,7 +71,7 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
 
         <div className={styles.manageGrid}>
           <div className={styles.manageLeft}>
-            <div className={styles.manageImgWrap} style={{ background: 'linear-gradient(135deg,#0a0a1a,#1a1a3e)', position: 'relative' }}>
+            <div className={`${styles.manageImgWrap} ${styles.manageImgWrapListing}`}>
               {product.images[0] && <FallbackImage src={product.images[0]} alt={product.productName} fill sizes="(max-width: 768px) 100vw, 500px" priority />}
               {!product.images[0] && <ShoppingBag size={80} color="rgba(255,255,255,0.2)" strokeWidth={1} />}
               <span className={styles.manageImgId}>{product._id?.slice(-8).toUpperCase()}</span>
@@ -92,8 +90,8 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
 
                   <div className={styles.editFormGrid2}>
                     <div>
-                      <label style={lbl}>Category</label>
-                      <select style={selectStyle} {...register('category')}>
+                      <label className={styles.fieldLabel}>Category</label>
+                      <select className={styles.fieldSelect} {...register('category')}>
                         {LISTED_CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABEL[c]}</option>)}
                       </select>
                       <FormError message={errors.category?.message} />
@@ -114,7 +112,7 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
 
                   <div className={styles.editFormGrid2}>
                     <div>
-                      <label style={lbl}>Condition</label>
+                      <label className={styles.fieldLabel}>Condition</label>
                       <div className={styles.conditionBtns}>
                         {LISTED_CONDITIONS.map((c) => (
                           <button key={c} type="button" onClick={() => setValue('condition', c as ListedProductCondition)} className={`${styles.conditionBtn} ${condition === c ? styles['conditionBtn--active'] : styles['conditionBtn--inactive']}`}>
@@ -147,8 +145,8 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
                     />
                   </div>
 
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, cursor: 'pointer' }}>
-                    <input type="checkbox" style={{ width: 16, height: 16, accentColor: '#2a14b4' }} {...register('isNegotiable')} />
+                  <label className={styles.checkboxLabel}>
+                    <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
                     Open to Negotiation
                   </label>
 
@@ -168,8 +166,8 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
               <div className={styles.infoCardTitle}>{product.productName}</div>
               <div className={styles.infoCardPriceRow}>
                 <span className={styles.infoCardPrice}>{formatPrice(product.price)}</span>
-                <span className={styles.infoCardBadge} style={{ background: '#e0e7ff', color: '#3730a3' }}>{product.category}</span>
-                <span className={styles.infoCardBadge} style={{ background: '#f3f4f6', color: '#6b7280' }}>{product.condition}</span>
+                <span className={styles.infoCardBadgeCategory}>{product.category}</span>
+                <span className={styles.infoCardBadgeCondition}>{product.condition}</span>
               </div>
               <p className={styles.infoCardDesc}>{product.description}</p>
               {product.isNegotiable && <p className={styles.infoCardNote}>✓ Open to negotiation</p>}

@@ -6,6 +6,7 @@ import { useAuthStore } from '@/modules/auth/store/auth.store'
 import { PageLoader } from '@/components/common/Loader/Loader'
 import AppHeader from '@/components/common/AppHeader/AppHeader'
 import AppFooter from '@/components/common/AppFooter/AppFooter'
+import styles from './ProtectedLayout.module.css'
 
 function ProtectedGuard({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
@@ -22,9 +23,9 @@ function ProtectedGuard({ children }: { children: React.ReactNode }) {
   if (!isAuthenticated) return null
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f0f2f8', fontFamily: "'Inter',sans-serif" }}>
+    <div className={styles.wrapper}>
       <AppHeader />
-      <main style={{ flex: 1 }}>{children}</main>
+      <main className={styles.main}>{children}</main>
       <AppFooter />
     </div>
   )

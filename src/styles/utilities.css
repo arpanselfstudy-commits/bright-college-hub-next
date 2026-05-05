@@ -2,6 +2,25 @@
    CAMPUS NEXT — Utility Classes
    ============================================================ */
 
+/* ── Global overflow guard ─────────────────────────────────── */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* Ensure media elements never cause horizontal overflow */
+img, video, iframe { max-width: 100%; }
+
+/* ── Responsive visibility helpers ─────────────────────────── */
+/* Hidden on mobile (≤767px), visible at tablet+ (≥768px) */
+.u-hide-mobile { display: none; }
+@media (min-width: 768px) {
+  .u-hide-mobile { display: revert; }
+}
+
+/* Hidden at tablet+ (≥768px), visible on mobile (≤767px) */
+.u-hide-desktop { display: revert; }
+@media (min-width: 768px) {
+  .u-hide-desktop { display: none; }
+}
+
 /* Layout */
 .u-flex         { display: flex; }
 .u-flex-col     { display: flex; flex-direction: column; }
@@ -55,6 +74,14 @@
   margin: 0 auto;
   width: 100%;
   padding: var(--space-12) var(--space-8);
+}
+
+@media (max-width: 767px) {
+  .page__content { padding: var(--space-4); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page__content { padding: var(--space-8) var(--space-6); }
 }
 
 /* Card */

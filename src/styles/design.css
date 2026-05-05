@@ -76,7 +76,7 @@ input { font-family: inherit; }
   align-items: center;
   gap: 8px;
   font-weight: 700;
-  font-size: 18px;
+  font-size: var(--logo-size, 18px);
   color: var(--cn-primary);
 }
 .cn-logo--white { color: white; }
@@ -86,6 +86,9 @@ input { font-family: inherit; }
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   color: white; font-size: 18px;
+}
+.cn-logo-icon--white {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* --- Auth Form --- */
@@ -250,6 +253,40 @@ input { font-family: inherit; }
 .forgot-title span { color: var(--cn-accent); }
 .forgot-sub { font-size: 14px; color: var(--cn-text-muted); line-height: 1.6; margin-bottom: 32px; }
 .forgot-hint { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--cn-text-muted); margin-top: 12px; justify-content: center; }
+
+/* ============================================
+   AUTH PAGES — RESPONSIVE
+   ============================================ */
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  /* Hide decorative left panel, show form full-width */
+  .auth-body {
+    grid-template-columns: 1fr;
+  }
+  .auth-left {
+    display: none;
+  }
+  .auth-right {
+    padding: 40px 24px;
+    width: 100%;
+  }
+  /* Full-width inputs and buttons */
+  .auth-right .btn,
+  .auth-right input {
+    width: 100%;
+  }
+}
+
+/* Tablet (768px–1023px): both panels side by side at 50% each */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .auth-body {
+    grid-template-columns: 1fr 1fr;
+  }
+  .auth-right {
+    padding: 40px 32px;
+  }
+}
 
 /* ============================================
    LANDING PAGE
@@ -460,9 +497,9 @@ input { font-family: inherit; }
 .mp-card-img img { width: 100%; height: 100%; object-fit: cover; }
 .mp-card-price { position: absolute; top: 12px; right: 12px; background: var(--cn-primary); color: white; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 8px; }
 .mp-card-body { padding: 16px; }
-.mp-card-category { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cn-primary); margin-bottom: 6px; display: flex; justify-content: space-between; }
+.mp-card-category { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cn-primary); margin-bottom: 6px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
 .mp-card-time { color: var(--cn-text-muted); font-weight: 400; }
-.mp-card-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.mp-card-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .mp-card-seller { display: flex; align-items: center; justify-content: space-between; }
 .mp-seller-info { display: flex; align-items: center; gap: 8px; }
 .mp-seller-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--cn-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
@@ -579,6 +616,24 @@ input { font-family: inherit; }
 
 .shops-load-more { display: flex; justify-content: center; padding: 16px 0 48px; }
 .shops-load-btn { display: flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 24px; background: #e8edf8; color: var(--cn-text); font-size: 14px; font-weight: 500; border: none; cursor: pointer; }
+
+/* ── Shops responsive ───────────────────────────────────── */
+@media (max-width: 767px) {
+  .shops-hero { padding: 24px 16px 20px; }
+  .shops-hero-title { font-size: 26px; }
+  .shops-layout { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 20px; }
+  .shops-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .shops-hero { padding: 32px 24px 24px; }
+  .shops-layout { grid-template-columns: 180px 1fr; padding: 0 24px 40px; gap: 24px; }
+  .shops-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1024px) {
+  .shops-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
 
 /* ============================================
    SHOP DETAILS PAGE
@@ -999,3 +1054,90 @@ input { font-family: inherit; }
 .ac-footer-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: #2a14b4; font-size: 15px; }
 .ac-footer-links { display: flex; gap: 20px; }
 .ac-footer-links a:hover { color: #2a14b4; }
+
+/* ============================================
+   LANDING PAGE — RESPONSIVE
+   ============================================ */
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  .landing-nav {
+    padding: 12px 16px;
+  }
+  .landing-nav-links {
+    display: none;
+  }
+
+  .landing-hero {
+    grid-template-columns: 1fr;
+    padding: 24px 16px 16px;
+    gap: 24px;
+  }
+  .hero-title { font-size: 32px; }
+
+  .landing-section { padding: 24px 16px; }
+
+  .jobs-grid { grid-template-columns: 1fr; }
+
+  .marketplace-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .picks-grid { grid-template-columns: 1fr; }
+
+  .cta-banner {
+    margin: 0 0 24px;
+    padding: 32px 16px;
+    border-radius: 0;
+  }
+
+  .landing-footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 20px 16px;
+  }
+}
+
+/* Tablet (768px–1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .landing-hero { padding: 32px 24px 24px; gap: 32px; }
+  .landing-section { padding: 32px 24px; }
+  .jobs-grid { grid-template-columns: repeat(2, 1fr); }
+  .marketplace-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-banner { margin: 0 24px 32px; padding: 40px 32px; }
+  .landing-footer { padding: 20px 24px; }
+}
+
+/* ============================================
+   JOBS PAGE — RESPONSIVE
+   ============================================ */
+@media (max-width: 767px) {
+  .jobs-hero { padding: 24px 16px 16px; }
+  .jobs-hero-title { font-size: 28px; }
+  .jobs-layout { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 16px; }
+  .jobs-grid-main { grid-template-columns: 1fr; }
+  .requirements-grid { grid-template-columns: 1fr; }
+  .job-detail-body { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .jobs-layout { padding: 0 24px 32px; }
+  .jobs-grid-main { grid-template-columns: repeat(2, 1fr); }
+  .job-detail-body { padding: 24px; }
+}
+
+/* ============================================
+   MARKETPLACE PAGE — RESPONSIVE
+   ============================================ */
+@media (max-width: 767px) {
+  .marketplace-hero { padding: 24px 16px 16px; }
+  .marketplace-hero-title { font-size: 26px; }
+  .marketplace-layout { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+  .mp-grid { grid-template-columns: 1fr; gap: 12px; }
+  .product-body { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 24px; }
+  .product-back { padding: 12px 16px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .marketplace-layout { padding: 16px 24px 32px; }
+  .mp-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-body { padding: 0 24px 32px; }
+}

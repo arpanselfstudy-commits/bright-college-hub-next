@@ -23,7 +23,7 @@ export interface JobDetailViewProps {
 }
 
 export default function JobDetailView({ job, isLoading, showContact, onShowContact, onCloseContact }: JobDetailViewProps) {
-  if (isLoading) return <div style={{ minHeight: '100vh', background: '#f8faff' }}><PageLoader /></div>
+  if (isLoading) return <div className={styles.loadingPage}><PageLoader /></div>
 
   if (!job) return (
     <div className={styles.notFound}>
@@ -41,7 +41,7 @@ export default function JobDetailView({ job, isLoading, showContact, onShowConta
     <div className="job-detail-page">
       <div className="job-detail-body">
         <div className="job-detail-main">
-          <div style={{ marginBottom: 20 }}>
+          <div className={styles.backWrap}>
             <BackButton href="/jobs" label="Back to Jobs" />
           </div>
 

@@ -16,8 +16,7 @@ export default function ProductGallery({ images, productName, condition, activeI
   return (
     <div className="product-gallery">
       <div
-        className={`product-main-img ${styles.galleryImgWrap}`}
-        style={{ background: '#1a1a2e', position: 'relative' }}
+        className={`product-main-img ${styles.galleryImgWrap} ${styles.galleryImgBg}`}
       >
         {images[activeImg] ? (
           <FallbackImage
@@ -40,8 +39,7 @@ export default function ProductGallery({ images, productName, condition, activeI
             <div
               key={i}
               onClick={() => onImgChange(i)}
-              className={`product-thumb${i === activeImg ? ' product-thumb--active' : ''}`}
-              style={{ overflow: 'hidden', cursor: 'pointer', position: 'relative' }}
+              className={`product-thumb${i === activeImg ? ' product-thumb--active' : ''} ${styles.thumbWrap}`}
             >
               <FallbackImage src={img} alt="" fill sizes="80px" className={styles.thumbImg} />
             </div>

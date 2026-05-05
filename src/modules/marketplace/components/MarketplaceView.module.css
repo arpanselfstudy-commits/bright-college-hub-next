@@ -186,3 +186,182 @@
   font-size: 12px;
   color: var(--color-text-muted);
 }
+
+/* ── Empty state icon ───────────────────────────────────── */
+.emptyIcon {
+  display: block;
+  margin: 0 auto 12px;
+  opacity: 0.3;
+}
+
+/* ── mpCardImgCoverDim (compact variant) ────────────────── */
+.mpCardImgCoverDim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+/* ── Requested card image background ───────────────────── */
+.mpCardImgBg {
+  background: linear-gradient(135deg, #1a1a2e, #2d2db0);
+  position: relative;
+}
+
+/* ── Requested card link wrapper ────────────────────────── */
+.mpCardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Category badge – request (pink) ───────────────────── */
+.catBadgeRequest {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+/* ── ListedProductCard – compact variant ────────────────── */
+.mpCardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.mpCardImgLight {
+  background: #f0f4ff;
+  position: relative;
+}
+
+/* ── Category badge – blue (compact) ───────────────────── */
+.catBadgeBlue {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+/* ── Condition text (compact) ───────────────────────────── */
+.conditionText {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+/* ── ListedProductCard – dynamic category badge ─────────── */
+.catBadgeDynamic {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: var(--cat-bg, #e5e7eb);
+  color: var(--cat-text, #374151);
+}
+
+/* ── ListedProductCard – dynamic image bg ───────────────── */
+.mpCardImgDynamic {
+  background: var(--cat-bg, #f0f4ff);
+  position: relative;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .emptyState { padding: 32px 16px; }
+  .searchWrap { max-width: 100%; }
+}
+
+/* ── Mobile filter toggle bar ───────────────────────────── */
+.mobileFilterBar {
+  display: none;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.mobileFilterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--color-surface-high);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition-fast);
+}
+.mobileFilterBtn:hover { background: var(--color-primary-light); }
+
+.mobileFilterBadge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.mobileClearBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* ── Mobile filter drawer ───────────────────────────────── */
+.mobileFilterDrawer {
+  display: none;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4);
+  box-shadow: 0 4px 16px rgba(11,28,48,0.08);
+}
+
+.mobileFilterDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+.mobileFilterClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* Desktop sidebar — always visible at tablet+ */
+.desktopSidebar { display: block; }
+
+@media (max-width: 767px) {
+  .mobileFilterBar    { display: flex; }
+  .mobileFilterDrawer { display: flex; }
+  .desktopSidebar     { display: none !important; }
+}

@@ -68,3 +68,15 @@
   background: var(--color-surface-high);
   color: var(--color-primary);
 }
+
+/* ── Dynamic icon size via CSS custom property ──────────── */
+.iconDynamic {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-subtle);
+  pointer-events: none;
+  line-height: 1;
+  font-size: var(--icon-size, 16px);
+}

@@ -1,7 +1,8 @@
 'use client'
 
 import '@/styles/design.css'
-import { ShoppingBag, MessageCircle } from 'lucide-react'
+import { ShoppingBag, MessageCircle, SlidersHorizontal, X } from 'lucide-react'
+import { useState } from 'react'
 import { MarketplaceSkeletonGrid } from '@/components/common/Loader/SkeletonCard'
 import SearchInput from '@/components/common/Search/Search'
 import Pagination from '@/components/common/Pagination/Pagination'
@@ -22,7 +23,6 @@ export interface MarketplaceViewProps {
   requestedLoading: boolean
   search: string
   onSearchChange: (v: string) => void
-  // Listed filters
   selectedCat: ListedProductCategory | ''
   onCatChange: (c: ListedProductCategory | '') => void
   selectedCondition: ListedProductCondition | ''
@@ -37,7 +37,6 @@ export interface MarketplaceViewProps {
   maxYearUsed: number | ''
   onMaxYearUsedChange: (v: number | '') => void
   onClearListedFilters: () => void
-  // Requested filters
   reqCat: ListedProductCategory | ''
   onReqCatChange: (c: ListedProductCategory | '') => void
   isNegotiable: string
@@ -49,7 +48,6 @@ export interface MarketplaceViewProps {
   reqMaxPrice: number | ''
   onReqMaxPriceChange: (v: number | '') => void
   onClearRequestedFilters: () => void
-  // Pagination
   page: number
   pagination?: { total: number; page: number; limit: number; pages: number }
   onPageChange: (p: number) => void
@@ -69,7 +67,27 @@ export default function MarketplaceView({
   onClearRequestedFilters,
   page, pagination, onPageChange,
 }: MarketplaceViewProps) {
+  const [filterOpen, setFilterOpen] = useState(false)
   const isLoading = tab === 'listed' ? listedLoading : requestedLoading
+
+  const hasListedFilters = !!(selectedCat || selectedCondition || minPrice || maxPrice || minYearUsed !== '' || maxYearUsed !== '')
+  const hasReqFilters = !!(reqCat || isNegotiable || isFulfilled || reqMinPrice !== '' || reqMaxPrice !== '')
+  const hasFilters = tab === 'listed' ? hasListedFilters : hasReqFilters
+  const clearFilters = tab === 'listed' ? onClearListedFilters : onClearRequestedFilters
+
+  const listedFilterProps = {
+    selectedCat, onCatChange, selectedCondition, onConditionChange, onClearCondition,
+    minPrice, onMinPriceChange, maxPrice, onMaxPriceChange,
+    minYearUsed, onMinYearUsedChange, maxYearUsed, onMaxYearUsedChange,
+    onClearFilters: onClearListedFilters,
+  }
+
+  const reqFilterProps = {
+    reqCat, onReqCatChange, isNegotiable, onIsNegotiableChange,
+    isFulfilled, onIsFulfilledChange,
+    reqMinPrice, onReqMinPriceChange, reqMaxPrice, onReqMaxPriceChange,
+    onClearFilters: onClearRequestedFilters,
+  }
 
   return (
     <div className="marketplace-page">
@@ -84,42 +102,40 @@ export default function MarketplaceView({
         </div>
       </div>
 
-      <div className="marketplace-layout">
-        <aside>
-          {tab === 'listed' && (
-            <ListedFilter
-              selectedCat={selectedCat}
-              onCatChange={onCatChange}
-              selectedCondition={selectedCondition}
-              onConditionChange={onConditionChange}
-              onClearCondition={onClearCondition}
-              minPrice={minPrice}
-              onMinPriceChange={onMinPriceChange}
-              maxPrice={maxPrice}
-              onMaxPriceChange={onMaxPriceChange}
-              minYearUsed={minYearUsed}
-              onMinYearUsedChange={onMinYearUsedChange}
-              maxYearUsed={maxYearUsed}
-              onMaxYearUsedChange={onMaxYearUsedChange}
-              onClearFilters={onClearListedFilters}
-            />
-          )}
+      {/* Mobile filter toggle */}
+      <div className={styles.mobileFilterBar}>
+        <button className={styles.mobileFilterBtn} onClick={() => setFilterOpen(o => !o)}>
+          <SlidersHorizontal size={15} />
+          Filters
+          {hasFilters && <span className={styles.mobileFilterBadge} />}
+        </button>
+        {hasFilters && (
+          <button className={styles.mobileClearBtn} onClick={clearFilters}>
+            <X size={13} /> Clear
+          </button>
+        )}
+      </div>
 
-          {tab === 'requested' && (
-            <RequestedFilter
-              reqCat={reqCat}
-              onReqCatChange={onReqCatChange}
-              isNegotiable={isNegotiable}
-              onIsNegotiableChange={onIsNegotiableChange}
-              isFulfilled={isFulfilled}
-              onIsFulfilledChange={onIsFulfilledChange}
-              reqMinPrice={reqMinPrice}
-              onReqMinPriceChange={onReqMinPriceChange}
-              reqMaxPrice={reqMaxPrice}
-              onReqMaxPriceChange={onReqMaxPriceChange}
-              onClearFilters={onClearRequestedFilters}
-            />
-          )}
+      {/* Mobile filter drawer */}
+      {filterOpen && (
+        <div className={styles.mobileFilterDrawer}>
+          <div className={styles.mobileFilterDrawerHeader}>
+            <span>Filters</span>
+            <button className={styles.mobileFilterClose} onClick={() => setFilterOpen(false)}>
+              <X size={18} />
+            </button>
+          </div>
+          {tab === 'listed'
+            ? <ListedFilter {...listedFilterProps} />
+            : <RequestedFilter {...reqFilterProps} />
+          }
+        </div>
+      )}
+
+      <div className="marketplace-layout">
+        <aside className={styles.desktopSidebar}>
+          {tab === 'listed' && <ListedFilter {...listedFilterProps} />}
+          {tab === 'requested' && <RequestedFilter {...reqFilterProps} />}
         </aside>
 
         <div>
@@ -133,7 +149,7 @@ export default function MarketplaceView({
             <>
               {tab === 'listed' && (listed.length === 0 ? (
                 <div className={styles.emptyState}>
-                  <ShoppingBag size={48} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
+                  <ShoppingBag size={48} className={styles.emptyIcon} />
                   <p>No listed products found.</p>
                   <button className={styles.clearFiltersBtn} onClick={onClearListedFilters}>Clear filters</button>
                 </div>
@@ -147,7 +163,7 @@ export default function MarketplaceView({
 
               {tab === 'requested' && (requested.length === 0 ? (
                 <div className={styles.emptyState}>
-                  <MessageCircle size={48} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
+                  <MessageCircle size={48} className={styles.emptyIcon} />
                   <p>No requested products found.</p>
                   <button className={styles.clearFiltersBtn} onClick={onClearRequestedFilters}>Clear filters</button>
                 </div>

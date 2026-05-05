@@ -1,0 +1,18 @@
+/* ── LoginPage – avatar row ─────────────────────────────── */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: inline-block;
+}
+
+.avatarBlue1 { background: #c7d2fe; }
+.avatarBlue2 { background: #a5b4fc; margin-left: -8px; }
+.avatarBlue3 { background: #818cf8; margin-left: -8px; }
+
+.avatarText {
+  margin-left: 12px;
+  font-size: 13px;
+  color: #4b5563;
+}

@@ -13,7 +13,7 @@ interface ProfileHeaderProps {
 export default function ProfileHeader({ user }: ProfileHeaderProps) {
   return (
     <div className={styles.profileHeader}>
-      <div className={styles.profileAvatar} style={{ position: 'relative' }}>
+      <div className={styles.profileAvatar}>
         {user?.photo
           ? <FallbackImage src={user.photo} alt={user.name} fill sizes="80px" />
           : user?.name?.[0]?.toUpperCase() ?? '?'}

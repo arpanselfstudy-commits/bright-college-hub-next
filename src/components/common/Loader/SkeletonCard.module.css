@@ -183,3 +183,7 @@
   height: 28px;
   border-radius: 6px;
 }
+
+/* ── Width variants for job meta shimmer ────────────────── */
+.jobMeta60 { height: 14px; width: 60%; }
+.jobMeta50 { height: 14px; width: 50%; }

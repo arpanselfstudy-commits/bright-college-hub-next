@@ -1,0 +1,11 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f8;
+  font-family: 'Inter', sans-serif;
+}
+
+.main {
+  flex: 1;
+}

@@ -15,15 +15,11 @@ export default function ProductInfo({ product, onShowContact }: ProductInfoProps
   return (
     <div className="product-info">
       <div className="product-badges">
-        <span className={styles.catBadge} style={{ background: '#e0e7ff', color: '#3730a3' }}>
+        <span className={styles.catBadgeBlue}>
           {CATEGORY_LABEL[product.category as ListedProductCategory] ?? product.category}
         </span>
         <span
-          className={styles.availBadge}
-          style={{
-            background: product.isAvailable ? '#dcfce7' : '#fef2f2',
-            color: product.isAvailable ? '#166534' : '#991b1b',
-          }}
+          className={product.isAvailable ? styles.availBadgeAvailable : styles.availBadgeSold}
         >
           {product.isAvailable ? 'Available' : 'Sold'}
         </span>

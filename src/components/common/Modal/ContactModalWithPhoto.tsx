@@ -28,7 +28,7 @@ export default function ContactModalWithPhoto({
         <h2 className={styles.contactHeaderTitle}>Seller Contact Details</h2>
       </div>
       <div className={styles.avatarWrap}>
-        <div className={styles.avatar} style={{ position: 'relative' }}>
+        <div className={`${styles.avatar} ${styles.avatarRelative}`}>
           {photoSrc
             ? <FallbackImage src={photoSrc} alt={name} fill sizes="80px" />
             : <span className={styles.avatarInitial}>{name.split(' ').map((n) => n[0]).join('')}</span>

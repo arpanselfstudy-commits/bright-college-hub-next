@@ -46,3 +46,19 @@
 .reqIcon {
   flex-shrink: 0;
 }
+
+/* ── Loading page ───────────────────────────────────────── */
+.loadingPage {
+  min-height: 100vh;
+  background: #f8faff;
+}
+
+/* ── Back button wrap ───────────────────────────────────── */
+.backWrap {
+  margin-bottom: 20px;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .backWrap { margin-bottom: 12px; }
+}

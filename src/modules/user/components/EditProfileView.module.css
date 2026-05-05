@@ -1,0 +1,156 @@
+/* ── EditProfileView ────────────────────────────────────── */
+.wrapper {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 40px 24px;
+}
+
+.backRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.breadcrumb {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.pageTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0b1c30;
+  margin: 0;
+}
+
+.formCard {
+  background: white;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 4px 24px rgba(11, 28, 48, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f2f8;
+}
+
+.cancelBtn {
+  padding: 12px 24px;
+  background: none;
+  border: 1.5px solid #e5e7eb;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 12px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.submitBtn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #2a14b4, #4338ca);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinIcon {
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Info cards ─────────────────────────────────────────── */
+.infoCards {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.verificationCard {
+  background: rgba(134, 242, 228, 0.25);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.verificationTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #006a61;
+  margin-bottom: 3px;
+}
+
+.verificationSub {
+  font-size: 12px;
+  color: #006a61;
+  opacity: 0.8;
+}
+
+.verificationCheck {
+  font-size: 28px;
+  color: #006a61;
+}
+
+.publicCard {
+  background: #ffddb8;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.publicCardIcon {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.publicCardText {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #553300;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .wrapper   { padding: 20px 16px; }
+  .formCard  { padding: 20px 16px; }
+  .infoCards { grid-template-columns: 1fr; }
+  .formActions { flex-direction: column; }
+  .submitBtn, .cancelBtn { width: 100%; justify-content: center; }
+}

@@ -18,7 +18,7 @@ export default function ShopCard({ shop, variant = 'main' }: ShopCardProps) {
   if (variant === 'compact') {
     const imgSrc = shop.photo || shop.photos?.[0]
     return (
-      <div className={styles.shopCardCompact} style={{ position: 'relative' }}>
+      <div className={styles.shopCardCompact}>
         {imgSrc && (
           <FallbackImage
             src={imgSrc}
@@ -40,7 +40,7 @@ export default function ShopCard({ shop, variant = 'main' }: ShopCardProps) {
 
   return (
     <div className="shop-card">
-      <div className="shop-card-img" style={{ background: 'linear-gradient(135deg,#1a1a2e,#2d2db0)', position: 'relative' }}>
+      <div className={`shop-card-img ${styles.shopCardMainImgWrap}`}>
         <FallbackImage
           src={shop.photo || shop.photos?.[0]}
           alt={shop.name}
@@ -49,12 +49,7 @@ export default function ShopCard({ shop, variant = 'main' }: ShopCardProps) {
           className={styles.shopImgBg}
         />
         <div className="shop-card-img-overlay" />
-        <span style={{
-          position: 'absolute', top: 10, left: 10,
-          background: isOpenToday ? '#dcfce7' : '#fef2f2',
-          color: isOpenToday ? '#166534' : '#991b1b',
-          fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
-        }}>
+        <span className={isOpenToday ? styles.shopStatusBadgeOpen : styles.shopStatusBadgeClosed}>
           {isOpenToday ? '● Open' : '● Closed'}
         </span>
       </div>

@@ -1,0 +1,273 @@
+/* ── RequestProductView ─────────────────────────────────── */
+.wrapper {
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 48px 32px;
+  display: flex;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── Left info panel ────────────────────────────────────── */
+.infoPanel {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.backWrap {
+  margin-bottom: 20px;
+}
+
+.marketplaceBadge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #006a61;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.05;
+  color: #0b1c30;
+  margin-bottom: 14px;
+}
+
+.headingAccent {
+  color: #2a14b4;
+}
+
+.subText {
+  font-size: 14px;
+  color: #464554;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.featureCard {
+  background: #eff4ff;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+
+.featureCardTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.featureCardSub {
+  font-size: 13px;
+  color: #464554;
+  line-height: 1.5;
+}
+
+/* ── Form panel ─────────────────────────────────────────── */
+.formPanel {
+  flex: 1;
+  background: white;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 4px 24px rgba(11, 28, 48, 0.07);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Form field helpers ─────────────────────────────────── */
+.fieldLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.select {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--color-surface-low);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  appearance: none;
+  box-sizing: border-box;
+}
+
+.priceGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #2a14b4;
+}
+
+/* ── Dropzone ───────────────────────────────────────────── */
+.dropzone {
+  background: #f0f4ff;
+  border-radius: 12px;
+  border: 2px dashed #c7c4d7;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.dropzone--active {
+  background: #e0e7ff;
+  border-color: #2a14b4;
+}
+
+.dropzone--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.dropzoneIcon {
+  margin-bottom: 8px;
+}
+
+.dropzoneTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b1c30;
+  margin-bottom: 2px;
+}
+
+.dropzoneCount {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.previewList {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.previewItem {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e5e7eb;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewRemove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.imageRequired {
+  font-size: 12px;
+  color: #e53e3e;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ── Contact section ────────────────────────────────────── */
+.contactSection {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 18px;
+}
+
+.contactTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2a14b4;
+  margin-bottom: 14px;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ── Submit button ──────────────────────────────────────── */
+.submitBtn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #2a14b4, #4338ca);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .infoPanel { display: none; }
+  .priceGrid { grid-template-columns: 1fr; }
+  .contactGrid { grid-template-columns: 1fr; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* tablet: no overrides needed for this view */
+}

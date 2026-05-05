@@ -10,6 +10,7 @@ import { useAuthStore } from '../store/auth.store'
 import AuthLogo from '../components/common/AuthLogo'
 import { FormError } from '@/components/common'
 import Input from '@/components/common/Input/Input'
+import styles from './LoginPage.module.css'
 
 const initialState = { success: false, message: '' }
 
@@ -45,10 +46,10 @@ export default function LoginPage() {
               Elevate your campus journey with a high-end digital ecosystem designed for students, dreamers, and doers.
             </p>
             <div className="auth-left-avatars">
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#c7d2fe', border: '2px solid white', display: 'inline-block' }} />
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#a5b4fc', border: '2px solid white', display: 'inline-block', marginLeft: -8 }} />
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#818cf8', border: '2px solid white', display: 'inline-block', marginLeft: -8 }} />
-              <span style={{ marginLeft: 12, fontSize: 13, color: '#4b5563' }}>
+              <div className={`${styles.avatar} ${styles.avatarBlue1}`} />
+              <div className={`${styles.avatar} ${styles.avatarBlue2}`} />
+              <div className={`${styles.avatar} ${styles.avatarBlue3}`} />
+              <span className={styles.avatarText}>
                 Joined by <strong>12k+</strong> students this semester
               </span>
             </div>

@@ -20,8 +20,8 @@ export default function LandingShops({ shops, isLoading }: LandingShopsProps) {
       {isLoading ? (
         <div className={styles.shopsGrid}>
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className={styles.shopCard} style={{ background: '#e5e7eb' }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite' }} />
+            <div key={i} className={`${styles.shopCard} ${styles.shopCardSkeleton}`}>
+              <div className={styles.shopCardShimmer} />
             </div>
           ))}
         </div>

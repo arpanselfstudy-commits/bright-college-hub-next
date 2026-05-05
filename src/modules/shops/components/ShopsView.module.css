@@ -137,6 +137,7 @@
   height: 220px;
   background: linear-gradient(160deg, #1a1a2e, #2d2db0);
   box-shadow: var(--shadow-md);
+  position: relative;
 }
 
 .shopCardBg {
@@ -195,3 +196,128 @@
 }
 
 .shopViewBtn:hover { background: rgba(255,255,255,0.25); }
+
+/* ── ShopCard main variant ──────────────────────────────── */
+.shopCardMainImgWrap {
+  background: linear-gradient(135deg, #1a1a2e, #2d2db0);
+  position: relative;
+}
+
+/* ── Open/closed badge variants ────────────────────────── */
+.shopStatusBadgeOpen {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.shopStatusBadgeClosed {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .searchWrap { max-width: 100%; }
+  .emptyState { padding: 32px 16px; }
+}
+
+/* ── Mobile filter toggle bar ───────────────────────────── */
+.mobileFilterBar {
+  display: none;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.mobileFilterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--color-surface-high);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition-fast);
+}
+.mobileFilterBtn:hover { background: var(--color-primary-light); }
+
+.mobileFilterBadge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.mobileClearBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* ── Mobile filter drawer ───────────────────────────────── */
+.mobileFilterDrawer {
+  display: none;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4);
+  box-shadow: 0 4px 16px rgba(11,28,48,0.08);
+}
+
+.mobileFilterDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+.mobileFilterClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* Desktop sidebar — always visible at tablet+ */
+.desktopSidebar { display: block; }
+
+@media (max-width: 767px) {
+  .mobileFilterBar    { display: flex; }
+  .mobileFilterDrawer { display: flex; }
+  .desktopSidebar     { display: none !important; }
+}

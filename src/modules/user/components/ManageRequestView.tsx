@@ -44,7 +44,7 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
   if (isLoading) return <div className={styles.page}><PageLoader /></div>
   if (!request) return (
     <div className={styles.page}>
-      <div className={styles.emptyState} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div className={`${styles.emptyState} ${styles.emptyStateFlex}`}>
         <ClipboardList size={48} color="#9ca3af" strokeWidth={1} />
         <p>Request not found. <BackButton href="/account/my-profile" label="Back to profile" /></p>
       </div>
@@ -57,7 +57,7 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
   return (
     <div className={styles.page}>
       <div className={styles.contentWide}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 }}>
+        <div className={styles.pageHeader}>
           <BackButton href="/account/my-profile" label="Back to Profile" />
           <div>
             <div className={styles.pageHeaderTag}>Request Management</div>
@@ -67,10 +67,10 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
 
         <div className={styles.manageGrid}>
           <div className={styles.manageLeft}>
-            <div className={styles.requestImgWrap} style={{ background: 'linear-gradient(135deg,#1a1a2e,#2d1a4e)', position: 'relative' }}>
+            <div className={`${styles.requestImgWrap} ${styles.manageImgWrapRequest}`}>
               {request.images[0] && <FallbackImage src={request.images[0]} alt={request.name} fill sizes="(max-width: 768px) 100vw, 500px" priority />}
               {!request.images[0] && <ClipboardList size={80} color="rgba(255,255,255,0.2)" strokeWidth={1} />}
-              <span className={styles.requestStatusBadge} style={{ background: isFulfilled ? '#dcfce7' : '#2a14b4', color: isFulfilled ? '#166534' : 'white' }}>
+              <span className={isFulfilled ? styles.requestStatusBadgeFulfilled : styles.requestStatusBadgeActive}>
                 {isFulfilled ? 'Fulfilled' : 'Active'}
               </span>
             </div>
@@ -146,7 +146,7 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
               <div className={styles.infoCardTitle}>{request.name}</div>
               <div className={styles.infoCardPriceRow}>
                 <span className={styles.infoCardPrice}>${request.price.from} – ${request.price.to}</span>
-                {request.category && <span className={styles.infoCardBadge} style={{ background: '#e0e7ff', color: '#3730a3' }}>{request.category}</span>}
+                {request.category && <span className={styles.infoCardBadgeRequest}>{request.category}</span>}
               </div>
               <p className={styles.infoCardDesc}>{request.description}</p>
             </div>

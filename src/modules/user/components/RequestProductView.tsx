@@ -9,9 +9,7 @@ import Input from '@/components/common/Input/Input'
 import BackButton from '@/components/common/BackButton/BackButton'
 import type { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form'
 import type { RequestProductForm } from '@/modules/user/types'
-
-const selectStyle = { width: '100%', padding: '13px 16px', background: 'var(--color-surface-low)', border: '1.5px solid var(--color-border)', borderRadius: 12, fontSize: 14, color: 'var(--color-text)', fontFamily: "'Inter',sans-serif", outline: 'none', appearance: 'none' as const, boxSizing: 'border-box' as const }
-const lbl = { fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#6b7280', marginBottom: 6, display: 'block' }
+import styles from './RequestProductView.module.css'
 
 export interface RequestProductViewProps {
   register: UseFormRegister<RequestProductForm>
@@ -44,30 +42,30 @@ export default function RequestProductView({
   })
 
   return (
-    <div style={{ flex: 1, maxWidth: 1000, margin: '0 auto', width: '100%', padding: '48px 32px', display: 'flex', gap: 48, alignItems: 'start' }}>
+    <div className={styles.wrapper}>
 
       {/* Left info panel */}
-      <div style={{ width: 260, flexShrink: 0 }}>
-        <div style={{ marginBottom: 20 }}>
+      <div className={styles.infoPanel}>
+        <div className={styles.backWrap}>
           <BackButton href="/account/my-profile" label="Back to Profile" />
         </div>
-        <span style={{ display: 'inline-block', background: '#dcfce7', color: '#006a61', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 20, marginBottom: 20 }}>The Atelier Marketplace</span>
-        <h1 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 34, fontWeight: 800, lineHeight: 1.05, color: '#0b1c30', marginBottom: 14 }}>Sourcing for<br /><em style={{ color: '#2a14b4' }}>Innovation.</em></h1>
-        <p style={{ fontSize: 14, color: '#464554', lineHeight: 1.65, marginBottom: 24 }}>Can&apos;t find what you need? Post a request and let the right product find you.</p>
+        <span className={styles.marketplaceBadge}>The Atelier Marketplace</span>
+        <h1 className={styles.heading}>Sourcing for<br /><em className={styles.headingAccent}>Innovation.</em></h1>
+        <p className={styles.subText}>Can&apos;t find what you need? Post a request and let the right product find you.</p>
         {[
           { title: 'Network Reach', sub: 'Broadcasted to 5,000+ active campus members instantly.' },
           { title: 'Secure Trading', sub: 'All responders are verified for safe transactions.' },
         ].map((c) => (
-          <div key={c.title} style={{ background: '#eff4ff', borderRadius: 14, padding: 18, marginBottom: 12 }}>
-            <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{c.title}</div>
-            <div style={{ fontSize: 13, color: '#464554', lineHeight: 1.5 }}>{c.sub}</div>
+          <div key={c.title} className={styles.featureCard}>
+            <div className={styles.featureCardTitle}>{c.title}</div>
+            <div className={styles.featureCardSub}>{c.sub}</div>
           </div>
         ))}
       </div>
 
       {/* Form */}
-      <div style={{ flex: 1, background: 'white', borderRadius: 20, padding: 36, boxShadow: '0 4px 24px rgba(11,28,48,0.07)' }}>
-        <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <div className={styles.formPanel}>
+        <form onSubmit={onSubmit} className={styles.form}>
 
           <Input
             label="Product Name"
@@ -78,13 +76,13 @@ export default function RequestProductView({
           />
 
           <div>
-            <label style={lbl}>Category</label>
-            <select style={selectStyle} {...register('category')}>
+            <label className={styles.fieldLabel}>Category</label>
+            <select className={styles.select} {...register('category')}>
               {LISTED_CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABEL[c]}</option>)}
             </select>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div className={styles.priceGrid}>
             <Input
               label="Min Price ($)"
               type="number"
@@ -103,8 +101,8 @@ export default function RequestProductView({
             />
           </div>
 
-          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, cursor: 'pointer' }}>
-            <input type="checkbox" style={{ width: 16, height: 16, accentColor: '#2a14b4' }} {...register('isNegotiable')} />
+          <label className={styles.checkboxLabel}>
+            <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
             Open to Negotiation
           </label>
 
@@ -118,34 +116,38 @@ export default function RequestProductView({
 
           {/* Dropzone */}
           <div>
-            <label style={lbl}>Images (min 1, max 5)</label>
+            <label className={styles.fieldLabel}>Images (min 1, max 5)</label>
             <div
               {...getRootProps()}
-              style={{ background: isDragActive ? '#e0e7ff' : '#f0f4ff', borderRadius: 12, border: `2px dashed ${isDragActive ? '#2a14b4' : '#c7c4d7'}`, padding: '20px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: images.length >= 5 ? 'not-allowed' : 'pointer', textAlign: 'center', transition: 'all 0.15s', opacity: images.length >= 5 ? 0.5 : 1 }}
+              className={[
+                styles.dropzone,
+                isDragActive ? styles['dropzone--active'] : '',
+                images.length >= 5 ? styles['dropzone--disabled'] : '',
+              ].join(' ')}
             >
               <input {...getInputProps()} />
-              <UploadCloud size={28} color="#2a14b4" style={{ marginBottom: 8 }} />
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#0b1c30', marginBottom: 2 }}>{isDragActive ? 'Drop here' : 'Drag & drop or click to browse'}</div>
-              <div style={{ fontSize: 11, color: '#9ca3af' }}>{images.length}/5 uploaded</div>
+              <UploadCloud size={28} color="#2a14b4" className={styles.dropzoneIcon} />
+              <div className={styles.dropzoneTitle}>{isDragActive ? 'Drop here' : 'Drag & drop or click to browse'}</div>
+              <div className={styles.dropzoneCount}>{images.length}/5 uploaded</div>
             </div>
             {images.length > 0 && (
-              <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+              <div className={styles.previewList}>
                 {images.map((img, i) => (
-                  <div key={img.preview} style={{ position: 'relative', width: 64, height: 64, borderRadius: 8, overflow: 'hidden', background: '#e5e7eb' }}>
-                    <img src={img.preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <button onClick={() => onRemoveImage(i)} type="button" style={{ position: 'absolute', top: 2, right: 2, width: 18, height: 18, borderRadius: '50%', background: 'rgba(0,0,0,0.6)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                  <div key={img.preview} className={styles.previewItem}>
+                    <img src={img.preview} alt="" className={styles.previewImg} />
+                    <button onClick={() => onRemoveImage(i)} type="button" className={styles.previewRemove}>
                       <X size={10} />
                     </button>
                   </div>
                 ))}
               </div>
             )}
-            {images.length === 0 && <p style={{ fontSize: 12, color: '#e53e3e', fontWeight: 600, marginTop: 6 }}>⚠ At least 1 image is required.</p>}
+            {images.length === 0 && <p className={styles.imageRequired}>⚠ At least 1 image is required.</p>}
           </div>
 
-          <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: 18 }}>
-            <h3 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 15, fontWeight: 700, color: '#2a14b4', marginBottom: 14 }}>Contact Details</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div className={styles.contactSection}>
+            <h3 className={styles.contactTitle}>Contact Details</h3>
+            <div className={styles.contactGrid}>
               <Input
                 label="Phone Number"
                 type="tel"
@@ -163,7 +165,11 @@ export default function RequestProductView({
             </div>
           </div>
 
-          <button type="submit" disabled={isPending || isUploading || images.length === 0} style={{ width: '100%', padding: '15px', background: 'linear-gradient(135deg,#2a14b4,#4338ca)', color: 'white', border: 'none', borderRadius: 14, fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 15, fontWeight: 700, cursor: 'pointer', opacity: isPending || isUploading || images.length === 0 ? 0.6 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+          <button
+            type="submit"
+            disabled={isPending || isUploading || images.length === 0}
+            className={styles.submitBtn}
+          >
             {isUploading ? <><Loader size={20} /> Uploading…</> : isPending ? <><Loader size={20} /> Posting…</> : 'Request Product'}
           </button>
 

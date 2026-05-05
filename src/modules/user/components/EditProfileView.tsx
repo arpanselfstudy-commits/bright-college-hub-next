@@ -10,6 +10,7 @@ const ImageUploader = dynamic(() => import('@/components/common/ImageUploader/Im
 import type { AuthUser } from '@/modules/auth/types'
 import type { UseFormRegister, FieldErrors } from 'react-hook-form'
 import type { EditProfileForm } from '@/modules/user/types'
+import styles from './EditProfileView.module.css'
 
 export interface EditProfileViewProps {
   user: AuthUser | null
@@ -37,88 +38,87 @@ export default function EditProfileView({
   const avatar = photoPreview || user?.photo || ''
 
   return (
-    <div style={{ flex: 1, maxWidth: 680, margin: '0 auto', width: '100%', padding: '40px 24px' }}>
+    <div className={styles.wrapper}>
 
-        {/* Back */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-          <BackButton href="/account/my-profile" label="Back to Profile" />
-          <div>
-            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6b7280' }}>Account</div>
-            <h1 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 24, fontWeight: 800, color: '#0b1c30', margin: 0 }}>Edit Profile</h1>
-          </div>
-        </div>
-
-        <form onSubmit={onSubmit}>
-          <div style={{ background: 'white', borderRadius: 20, padding: 36, boxShadow: '0 4px 24px rgba(11,28,48,0.07)', display: 'flex', flexDirection: 'column', gap: 22 }}>
-
-            {/* Photo */}
-            <ImageUploader
-              variant="avatar"
-              previewUrl={avatar}
-              onFileSelect={(file) => onDrop([file])}
-              onRemove={onRemovePhoto}
-              hint="PNG, JPG or GIF"
-              maxSizeMb={2}
-              isUploading={isUploading}
-            />
-
-            {/* Name */}
-            <Input
-              label="Full Name"
-              type="text"
-              placeholder="Your full name"
-              leftIcon={<User size={15} color="#9ca3af" />}
-              error={errors.name?.message}
-              {...register('name')}
-            />
-
-            {/* Email */}
-            <Input
-              label="Email Address"
-              type="email"
-              placeholder="name@campus.edu"
-              leftIcon={<Mail size={15} color="#9ca3af" />}
-              error={errors.email?.message}
-              {...register('email')}
-            />
-
-            {/* Phone */}
-            <Input
-              label="Phone Number"
-              type="tel"
-              placeholder="+1 (555) 000-0000"
-              leftIcon={<Phone size={15} color="#9ca3af" />}
-              error={errors.phoneNumber?.message}
-              {...register('phoneNumber')}
-            />
-
-            {/* Actions */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, paddingTop: 8, borderTop: '1px solid #f0f2f8' }}>
-              <Link href="/account/my-profile" style={{ padding: '12px 24px', background: 'none', border: '1.5px solid #e5e7eb', fontSize: 14, fontWeight: 600, color: '#6b7280', cursor: 'pointer', borderRadius: 12, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                Cancel
-              </Link>
-              <button type="submit" disabled={isPending || isUploading} style={{ padding: '12px 28px', background: 'linear-gradient(135deg,#2a14b4,#4338ca)', color: 'white', border: 'none', borderRadius: 12, fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: (isPending || isUploading) ? 0.7 : 1, display: 'flex', alignItems: 'center', gap: 8 }}>
-                {(isPending || isUploading) ? <><Loader2 size={15} style={{ animation: 'spin 0.8s linear infinite' }} /> Saving…</> : 'Save Changes'}
-              </button>
-              <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-            </div>
-          </div>
-        </form>
-
-        {/* Info cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 14, marginTop: 16 }}>
-          <div style={{ background: 'rgba(134,242,228,0.25)', borderRadius: 16, padding: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: 14, color: '#006a61', marginBottom: 3 }}>Verification Badge</div>
-              <div style={{ fontSize: 12, color: '#006a61', opacity: 0.8 }}>Your account is verified for the School of Design.</div>
-            </div>
-            <span style={{ fontSize: 28, color: '#006a61' }}>✓</span>
-          </div>
-          <div style={{ background: '#ffddb8', borderRadius: 16, padding: 20 }}>
-            <div style={{ fontSize: 18, marginBottom: 8 }}>ℹ</div>
-            <p style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: 12, color: '#553300', lineHeight: 1.4, margin: 0 }}>Public profiles are visible to all students.</p>
-          </div>
+      {/* Back */}
+      <div className={styles.backRow}>
+        <BackButton href="/account/my-profile" label="Back to Profile" />
+        <div>
+          <div className={styles.breadcrumb}>Account</div>
+          <h1 className={styles.pageTitle}>Edit Profile</h1>
         </div>
       </div>
+
+      <form onSubmit={onSubmit}>
+        <div className={styles.formCard}>
+
+          {/* Photo */}
+          <ImageUploader
+            variant="avatar"
+            previewUrl={avatar}
+            onFileSelect={(file) => onDrop([file])}
+            onRemove={onRemovePhoto}
+            hint="PNG, JPG or GIF"
+            maxSizeMb={2}
+            isUploading={isUploading}
+          />
+
+          {/* Name */}
+          <Input
+            label="Full Name"
+            type="text"
+            placeholder="Your full name"
+            leftIcon={<User size={15} color="#9ca3af" />}
+            error={errors.name?.message}
+            {...register('name')}
+          />
+
+          {/* Email */}
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="name@campus.edu"
+            leftIcon={<Mail size={15} color="#9ca3af" />}
+            error={errors.email?.message}
+            {...register('email')}
+          />
+
+          {/* Phone */}
+          <Input
+            label="Phone Number"
+            type="tel"
+            placeholder="+1 (555) 000-0000"
+            leftIcon={<Phone size={15} color="#9ca3af" />}
+            error={errors.phoneNumber?.message}
+            {...register('phoneNumber')}
+          />
+
+          {/* Actions */}
+          <div className={styles.formActions}>
+            <Link href="/account/my-profile" className={styles.cancelBtn}>
+              Cancel
+            </Link>
+            <button type="submit" disabled={isPending || isUploading} className={styles.submitBtn}>
+              {(isPending || isUploading) ? <><Loader2 size={15} className={styles.spinIcon} /> Saving…</> : 'Save Changes'}
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {/* Info cards */}
+      <div className={styles.infoCards}>
+        <div className={styles.verificationCard}>
+          <div>
+            <div className={styles.verificationTitle}>Verification Badge</div>
+            <div className={styles.verificationSub}>Your account is verified for the School of Design.</div>
+          </div>
+          <span className={styles.verificationCheck}>✓</span>
+        </div>
+        <div className={styles.publicCard}>
+          <div className={styles.publicCardIcon}>ℹ</div>
+          <p className={styles.publicCardText}>Public profiles are visible to all students.</p>
+        </div>
+      </div>
+    </div>
   )
 }

@@ -7,8 +7,11 @@ interface Props {
 
 export default function AuthLogo({ white, size = 14 }: Props) {
   return (
-    <div className={`cn-logo${white ? ' cn-logo--white' : ''}`} style={{ fontSize: size }}>
-      <div className="cn-logo-icon" style={white ? { background: 'rgba(255,255,255,0.2)' } : undefined}>
+    <div
+      className={`cn-logo${white ? ' cn-logo--white' : ''}`}
+      style={{ '--logo-size': `${size}px` } as React.CSSProperties}
+    >
+      <div className={`cn-logo-icon${white ? ' cn-logo-icon--white' : ''}`}>
         <BookOpen size={18} />
       </div>
       Bright Collage Hub

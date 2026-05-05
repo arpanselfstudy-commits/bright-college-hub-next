@@ -15,11 +15,9 @@ function BrandLogo() {
   return (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Bright Collage Hub">
       <rect width="36" height="36" rx="10" fill="url(#brandGrad)" />
-      {/* Open book */}
       <path d="M9 24 L9 14 Q18 11 18 14 L18 24" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       <path d="M27 24 L27 14 Q18 11 18 14 L18 24" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       <line x1="18" y1="14" x2="18" y2="24" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-      {/* Sun rays */}
       <circle cx="18" cy="9" r="2" fill="#fbbf24" />
       <line x1="18" y1="5.5" x2="18" y2="4" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" />
       <line x1="21.2" y1="6.8" x2="22.3" y2="5.7" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" />
@@ -34,16 +32,23 @@ function BrandLogo() {
   )
 }
 
-const MENU_ITEMS = [
-  { href: '/account/my-profile',     label: 'My Account',          Icon: User          },
-  { href: '/account/list-product',   label: 'List a Product',       Icon: PlusSquare    },
-  { href: '/account/request-product',label: 'Request a Product',    Icon: ClipboardList },
-  { href: '/account/edit-profile',   label: 'Edit Profile',         Icon: Pencil        },
+const NAV_LINKS = [
+  { href: '/jobs',        label: 'Jobs',        key: 'jobs',        Icon: Briefcase   },
+  { href: '/shops',       label: 'Shops',       key: 'shops',       Icon: StoreIcon   },
+  { href: '/marketplace', label: 'Marketplace', key: 'marketplace', Icon: ShoppingBag },
+] as const
+
+const ACCOUNT_LINKS = [
+  { href: '/account/my-profile',      label: 'My Account',       Icon: User          },
+  { href: '/account/list-product',    label: 'List a Product',    Icon: PlusSquare    },
+  { href: '/account/request-product', label: 'Request a Product', Icon: ClipboardList },
+  { href: '/account/edit-profile',    label: 'Edit Profile',      Icon: Pencil        },
 ] as const
 
 export default function AppHeader() {
   const [showLogout, setShowLogout] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const logout = useLogout()
@@ -67,20 +72,21 @@ export default function AppHeader() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [dropdownOpen])
 
+  // Close mobile menu on route change
+  useEffect(() => { setMenuOpen(false) }, [pathname])
+
   return (
     <>
       <nav className={styles.nav}>
+        {/* Brand */}
         <Link href="/landing" className={styles.brand} aria-label="Bright Collage Hub Home">
           <BrandLogo />
           <span className={styles.brandText}>Bright Collage Hub</span>
         </Link>
 
+        {/* Desktop nav links — hidden on mobile */}
         <div className={styles.navLinks}>
-          {([
-            { href: '/jobs',        label: 'Jobs',        key: 'jobs',        Icon: Briefcase   },
-            { href: '/shops',       label: 'Shops',       key: 'shops',       Icon: StoreIcon   },
-            { href: '/marketplace', label: 'Marketplace', key: 'marketplace', Icon: ShoppingBag },
-          ] as const).map(({ href, label, key, Icon }) => (
+          {NAV_LINKS.map(({ href, label, key, Icon }) => (
             <Link key={key} href={href} className={`${styles.navLink} ${isActive(key) ? styles['navLink--active'] : ''}`}>
               <Icon size={15} />
               {label}
@@ -88,6 +94,20 @@ export default function AppHeader() {
           ))}
         </div>
 
+        {/* Hamburger — mobile only */}
+        <button
+          className={styles.hamburger}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation"
+          onClick={() => setMenuOpen(o => !o)}
+        >
+          <span className={styles.hamburgerLine} />
+          <span className={styles.hamburgerLine} />
+          <span className={styles.hamburgerLine} />
+        </button>
+
+        {/* Avatar dropdown — desktop/tablet only, hidden on mobile */}
         <div className={styles.navRight}>
           <div ref={dropdownRef} className={styles.avatarWrap}>
             <button
@@ -104,7 +124,6 @@ export default function AppHeader() {
 
             {dropdownOpen && (
               <div className={styles.dropdown}>
-                {/* User info header */}
                 <div className={styles.dropdownHeader}>
                   <div className={styles.dropdownAvatar}>
                     {user?.photo
@@ -120,7 +139,7 @@ export default function AppHeader() {
 
                 <div className={styles.dropdownDivider} />
 
-                {MENU_ITEMS.map(({ href, label, Icon }) => (
+                {ACCOUNT_LINKS.map(({ href, label, Icon }) => (
                   <Link
                     key={href}
                     href={href}
@@ -146,6 +165,51 @@ export default function AppHeader() {
           </div>
         </div>
       </nav>
+
+      {/* Mobile menu — only visible on mobile when open */}
+      <div
+        id="mobile-menu"
+        className={menuOpen ? `${styles.mobileMenu} ${styles.mobileMenuOpen}` : styles.mobileMenu}
+      >
+        {/* Nav links */}
+        {NAV_LINKS.map(({ href, label, key, Icon }) => (
+          <Link
+            key={key}
+            href={href}
+            className={`${styles.mobileNavLink} ${isActive(key) ? styles['mobileNavLink--active'] : ''}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            <Icon size={16} />
+            {label}
+          </Link>
+        ))}
+
+        <div className={styles.mobileDivider} />
+
+        {/* Account links */}
+        {ACCOUNT_LINKS.map(({ href, label, Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            className={styles.mobileNavLink}
+            onClick={() => setMenuOpen(false)}
+          >
+            <Icon size={16} />
+            {label}
+          </Link>
+        ))}
+
+        <div className={styles.mobileDivider} />
+
+        {/* Logout */}
+        <button
+          className={`${styles.mobileNavLink} ${styles['mobileNavLink--danger']}`}
+          onClick={() => { setMenuOpen(false); setShowLogout(true) }}
+        >
+          <LogOut size={16} />
+          Logout
+        </button>
+      </div>
 
       {showLogout && (
         <div className="overlay">
