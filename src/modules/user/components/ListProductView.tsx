@@ -51,7 +51,7 @@ export default function ListProductView({
         <BackButton href="/account/my-profile" label="Back to Profile" />
       </div>
       <h1 className={styles.heading}>Market Your Craft</h1>
-      <p className={styles.subText}>Turn your essentials into value. List your product in the Bright Collage Hub marketplace.</p>
+      <p className={styles.subText}>Turn your essentials into value. List your product in the Bright College Hub marketplace.</p>
 
       <div className={styles.layout}>
 

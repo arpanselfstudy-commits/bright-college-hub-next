@@ -64,7 +64,7 @@ export default function ResetPasswordPage({ token }: Props) {
         <div className={styles.rightPanel}>
           <div className={`cn-logo ${styles.logoWrap}`}>
             <div className="cn-logo-icon"><BookOpen size={18} /></div>
-            Bright Collage Hub
+            Bright College Hub
           </div>
 
           <h2 className="auth-form-title">Reset Password</h2>

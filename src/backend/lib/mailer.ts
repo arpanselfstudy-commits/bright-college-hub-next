@@ -13,9 +13,9 @@ export async function sendResetPasswordEmail(email: string, token: string): Prom
   const resetUrl = `https://bright-college-hub-next.vercel.app/reset-password/${token}`
 
   await transporter.sendMail({
-    from: `"Bright Collage Hub" <${env.EMAIL_USER}>`,
+    from: `"Bright College Hub" <${env.EMAIL_USER}>`,
     to: email,
-    subject: 'Reset your Password - Bright Collage Hub',
+    subject: 'Reset your Password - Bright College Hub',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333;">Reset Your Password</h2>
@@ -52,9 +52,9 @@ export async function sendAdminResetPasswordEmail(email: string, token: string):
   const resetUrl = `/reset-password/${token}`
 
   await transporter.sendMail({
-    from: `"Bright Collage Hub" <${env.EMAIL_USER}>`,
+    from: `"Bright College Hub" <${env.EMAIL_USER}>`,
     to: email,
-    subject: 'Admin Password Reset - Bright Collage Hub',
+    subject: 'Admin Password Reset - Bright College Hub',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333;">Admin Password Reset</h2>

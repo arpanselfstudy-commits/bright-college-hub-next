@@ -16,3 +16,124 @@
   font-size: 13px;
   color: #4b5563;
 }
+
+/* ── Demo credentials card ──────────────────────────────── */
+.credentialsCard {
+  margin-top: 28px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.credentialsLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 12px;
+}
+
+.credentialsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.credentialsKey {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 60px;
+}
+
+.credentialsVal {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+/* ── Author attribution row ─────────────────────────────── */
+.authorRow {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid #f0f2f8;
+}
+
+.authorName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.authorLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.authorLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.authorLink:hover { color: #2a14b4; }
+
+.authorDot {
+  color: #d1d5db;
+  font-size: 14px;
+}
+
+/* ── Credentials hint (right panel, above form) ─────────── */
+.credentialsHint {
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.credentialsHintLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.credentialsHintRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 0;
+}
+
+.credentialsHintKey {
+  font-size: 12px;
+  color: #9ca3af;
+  min-width: 58px;
+}
+
+.credentialsHintVal {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2a14b4;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}

@@ -14,7 +14,7 @@ export default function AuthLogo({ white, size = 14 }: Props) {
       <div className={`cn-logo-icon${white ? ' cn-logo-icon--white' : ''}`}>
         <BookOpen size={18} />
       </div>
-      Bright Collage Hub
+      Bright College Hub
     </div>
   )
 }

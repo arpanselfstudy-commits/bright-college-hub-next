@@ -1,4 +1,4 @@
-# Bright Collage Hub Next.js Fullstack Project — Developer Onboarding Guide
+# Bright College Hub Next.js Fullstack Project — Developer Onboarding Guide
 
 This guide is written for junior React developers who are new to Next.js. If you know how to build a React SPA — components, hooks, state, props — you have everything you need to follow along. Over the course of 11 phases, you will learn how this project uses Next.js for both the frontend and the backend (the BFF pattern), how the backend architecture is structured, how security is handled, and how all the reusable patterns fit together. Read the phases in order for the full picture, or use the Table of Contents below to jump directly to a topic you need right now.
 
@@ -35,13 +35,13 @@ Before touching a single file, you need a mental map of the whole system. This p
 
 **What** is this system?
 
-Bright Collage Hub is a fullstack web application built with Next.js. It has three distinct runtime environments that talk to each other:
+Bright College Hub is a fullstack web application built with Next.js. It has three distinct runtime environments that talk to each other:
 
 1. **The Next.js app** — serves both the React UI and the backend API from a single process on `localhost:3000`.
 2. **The Admin Panel** — a completely separate React SPA (not in this repo) running on `localhost:5173` or `localhost:5174`.
 3. **MongoDB** — the primary database, accessed only from the Next.js server side via Mongoose.
 
-There is also an optional external Bright Collage Hub Express API (a separate Node.js/Express backend). The Next.js app can proxy or delegate certain operations to it, but the core auth, marketplace, jobs, and shops logic lives entirely inside this Next.js project.
+There is also an optional external Bright College Hub Express API (a separate Node.js/Express backend). The Next.js app can proxy or delegate certain operations to it, but the core auth, marketplace, jobs, and shops logic lives entirely inside this Next.js project.
 
 **Why** does this architecture exist?
 
@@ -92,7 +92,7 @@ The key insight is that Next.js lets you run server-side code (Route Handlers) i
           │
           ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│              EXTERNAL Bright Collage Hub Express API  (optional)              │
+│              EXTERNAL Bright College Hub Express API  (optional)              │
 │              (separate Node.js/Express backend — not this project)       │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -6570,11 +6570,11 @@ export default function Page() {
 
 ---
 
-### 11.5 Next.js vs External Bright Collage Hub Express API — Boundary Clarification
+### 11.5 Next.js vs External Bright College Hub Express API — Boundary Clarification
 
 **What** is the boundary?
 
-This project contains two separate backends: the Next.js Route Handlers (inside this repo) and an optional external Bright Collage Hub Express API (a separate Node.js/Express server, not in this repo). Understanding which logic lives where prevents you from accidentally duplicating code or calling the wrong backend.
+This project contains two separate backends: the Next.js Route Handlers (inside this repo) and an optional external Bright College Hub Express API (a separate Node.js/Express server, not in this repo). Understanding which logic lives where prevents you from accidentally duplicating code or calling the wrong backend.
 
 **Why** does this boundary matter?
 
@@ -6604,7 +6604,7 @@ If you add a new feature to the wrong backend, it will either not be accessible 
           │  or service function — never from the browser.
           ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│              EXTERNAL Bright Collage Hub Express API (optional)           │
+│              EXTERNAL Bright College Hub Express API (optional)           │
 │                                                                      │
 │  May own:                                                            │
 │  ├── Additional business logic not yet migrated to Next.js           │
@@ -6636,7 +6636,7 @@ Next.js Route Handler
   │
   │  server-side fetch to external Express API
   ▼
-External Bright Collage Hub Express API
+External Bright College Hub Express API
   │
   │  returns data
   ▼

@@ -13,7 +13,7 @@ import styles from './AppHeader.module.css'
 
 function BrandLogo() {
   return (
-    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Bright Collage Hub">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Bright College Hub">
       <rect width="36" height="36" rx="10" fill="url(#brandGrad)" />
       <path d="M9 24 L9 14 Q18 11 18 14 L18 24" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       <path d="M27 24 L27 14 Q18 11 18 14 L18 24" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -79,9 +79,9 @@ export default function AppHeader() {
     <>
       <nav className={styles.nav}>
         {/* Brand */}
-        <Link href="/landing" className={styles.brand} aria-label="Bright Collage Hub Home">
+        <Link href="/landing" className={styles.brand} aria-label="Bright College Hub Home">
           <BrandLogo />
-          <span className={styles.brandText}>Bright Collage Hub</span>
+          <span className={styles.brandText}>Bright College Hub</span>
         </Link>
 
         {/* Desktop nav links — hidden on mobile */}

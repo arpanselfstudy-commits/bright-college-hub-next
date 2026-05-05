@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: Bright Collage Hub API
+  title: Bright College Hub API
   version: 1.0.0
-  description: Bright Collage Hub backend REST API documentation
+  description: Bright College Hub backend REST API documentation
 
 servers:
   - url: http://localhost:3000

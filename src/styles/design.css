@@ -34,7 +34,8 @@ input { font-family: inherit; }
 
 /* --- Auth Layout (split screen) --- */
 .auth-page {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -42,13 +43,14 @@ input { font-family: inherit; }
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  overflow: hidden;
 }
 .auth-left {
   background: linear-gradient(160deg, #c8d8f8 0%, #dce8ff 50%, #e8f0ff 100%);
-  padding: 48px;
+  padding: 40px 48px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   position: relative;
   overflow: hidden;
 }
@@ -64,10 +66,11 @@ input { font-family: inherit; }
 }
 .auth-right {
   background: var(--cn-white);
-  padding: 64px 72px;
+  padding: 32px 56px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow-y: auto;
 }
 
 /* --- Logo --- */
@@ -92,10 +95,10 @@ input { font-family: inherit; }
 }
 
 /* --- Auth Form --- */
-.auth-form-title { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-.auth-form-subtitle { color: var(--cn-text-muted); font-size: 14px; margin-bottom: 32px; }
+.auth-form-title { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+.auth-form-subtitle { color: var(--cn-text-muted); font-size: 13px; margin-bottom: 16px; }
 
-.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .form-label { font-size: 13px; font-weight: 500; color: var(--cn-text); }
 .form-label--error { color: var(--cn-error); }
 
@@ -147,7 +150,7 @@ input { font-family: inherit; }
 .btn-outline:hover { background: #f0f0ff; }
 
 /* --- Auth footer link --- */
-.auth-alt-link { text-align: center; font-size: 14px; color: var(--cn-text-muted); margin-top: 28px; }
+.auth-alt-link { text-align: center; font-size: 13px; color: var(--cn-text-muted); margin-top: 16px; }
 .auth-alt-link a { color: var(--cn-primary); font-weight: 600; }
 
 /* --- Back link --- */

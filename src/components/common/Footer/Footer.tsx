@@ -28,13 +28,13 @@ export default function Footer({ variant = 'default' }: FooterProps) {
     return (
       <footer className={`${styles.footer} ${styles['footer--auth']}`}>
         <div className={styles.footer__authRow}>
-          <Link href="/" className={styles.footer__authLogo}>Bright Collage Hub</Link>
+          <Link href="/" className={styles.footer__authLogo}>Bright College Hub</Link>
           <div className={styles.footer__authLinks}>
             {legalLinks.map((l) => (
               <Link key={l.href} href={l.href} className={styles.footer__authLink}>{l.label}</Link>
             ))}
           </div>
-          <span className={styles.footer__authCopy}>© {year} Bright Collage Hub. The Academic Atelier.</span>
+          <span className={styles.footer__authCopy}>© {year} Bright College Hub. The Academic Atelier.</span>
         </div>
       </footer>
     )
@@ -44,7 +44,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
     <footer className={`${styles.footer} ${styles['footer--full']}`}>
       <div className={styles.footer__top}>
         <div className={styles.footer__brand}>
-          <Link href="/" className={styles.footer__logo}>Bright Collage Hub</Link>
+          <Link href="/" className={styles.footer__logo}>Bright College Hub</Link>
           <p className={styles.footer__tagline}>
             The Academic Atelier — connecting students with local career paths, campus commerce, and a curated digital community.
           </p>
@@ -72,7 +72,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
       </div>
 
       <div className={styles.footer__bottom}>
-        <span className={styles.footer__copy}>© {year} Bright Collage Hub. The Academic Atelier.</span>
+        <span className={styles.footer__copy}>© {year} Bright College Hub. The Academic Atelier.</span>
         <div className={styles.footer__legal}>
           {legalLinks.map((l) => (
             <Link key={l.href} href={l.href} className={styles.footer__legalLink}>{l.label}</Link>
