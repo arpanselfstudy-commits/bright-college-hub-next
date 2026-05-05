@@ -11,10 +11,9 @@ Scores captured on the live login page (`https://bright-college-hub-next.vercel.
 | Best Practices | 100 🟢 |
 | SEO            | 60 🟡 |
 
-Key metrics:
+> Scores measured on the live production build via [Google Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/).
 
-- First Contentful Paint: **0.8 s**
-- Largest Contentful Paint: **0.9 s**
+---
 
 Bright College Hub is a full-stack Next.js 16 App Router application for a college campus ecosystem. It combines user authentication, a student marketplace, product requests, campus shops, jobs, account management, CMS content, and admin-facing APIs inside one Next.js project using the BFF pattern.
 
