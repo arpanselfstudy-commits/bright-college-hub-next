@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 })
 
 export async function sendResetPasswordEmail(email: string, token: string): Promise<void> {
-  const resetUrl = `${env.NEXT_PUBLIC_APP_URL}/reset-password/${token}`
+  const resetUrl = `https://bright-college-hub-next.vercel.app/reset-password/${token}`
 
   await transporter.sendMail({
     from: `"Bright Collage Hub" <${env.EMAIL_USER}>`,
@@ -49,7 +49,7 @@ export async function sendResetPasswordEmail(email: string, token: string): Prom
 }
 
 export async function sendAdminResetPasswordEmail(email: string, token: string): Promise<void> {
-  const resetUrl = `http://localhost:5173/reset-password/${token}`
+  const resetUrl = `/reset-password/${token}`
 
   await transporter.sendMail({
     from: `"Bright Collage Hub" <${env.EMAIL_USER}>`,
