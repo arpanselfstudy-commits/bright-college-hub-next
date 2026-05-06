@@ -1535,7 +1535,6 @@ For understanding the implementation quickly:
 14. `src/backend/services`
 15. `src/backend/models`
 16. `src/lib/upload`
-17. `onboarding.md`
 
 ## Summary
 
