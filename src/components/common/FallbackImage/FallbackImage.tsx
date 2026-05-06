@@ -10,11 +10,18 @@ type FallbackImageProps = Omit<ImageProps, 'src'> & {
   fallbackSrc?: string
 }
 
+function isValidImageSrc(src: string | null | undefined): boolean {
+  if (!src) return false
+  // Must be an absolute URL (http/https) or a root-relative path starting with /
+  return src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/')
+}
+
 export default function FallbackImage({ src, fallbackSrc = FALLBACK_SRC, alt, ...props }: FallbackImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc)
+  const safeSrc = isValidImageSrc(src) ? src! : fallbackSrc
+  const [imgSrc, setImgSrc] = useState<string>(safeSrc)
 
   useEffect(() => {
-    setImgSrc(src || fallbackSrc)
+    setImgSrc(isValidImageSrc(src) ? src! : fallbackSrc)
   }, [src, fallbackSrc])
 
   return (
