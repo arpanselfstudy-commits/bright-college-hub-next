@@ -1,4 +1,4 @@
-# Bright College Hub - Campus App
+# Bright College Hub - Campus App (AI-Powered)
 
 ## Lighthouse Report
 
@@ -15,7 +15,7 @@ Scores captured on the live login page (`https://bright-college-hub-next.vercel.
 
 ---
 
-Bright College Hub is a full-stack Next.js 16 App Router application for a college campus ecosystem. It combines user authentication, a student marketplace, product requests, campus shops, jobs, account management, CMS content, and admin-facing APIs inside one Next.js project using the BFF pattern.
+Bright College Hub is a full-stack Next.js 16 App Router application for a college campus ecosystem. It combines user authentication, a student marketplace, product requests, campus shops, jobs, account management, CMS content, AI-powered description generation, and admin-facing APIs inside one Next.js project using the BFF pattern. The frontend is organized by feature modules, reusable components, custom hooks, React Query, and Zustand. The backend is implemented with Next.js Route Handlers, Mongoose, Zod validation, services, auth guards, secure cookies, JWT refresh rotation, password reset email, role-based authorization, and CDN-based image uploads. Rendering is mixed deliberately: static auth pages, dynamic list/account pages, ISR-backed detail pages, metadata generation, and React Query hydration for fast server-to-client data flow. The platform also includes AI-powered description generation on the List a Product and Request a Product forms — the AI call is made exclusively through a secure server-side Next.js route using the AICC API (OpenAI-compatible), with per-user in-memory rate limiting, Zod validation, auth guards, and a polished Generate Button UX including loading states, character counters, and toast error handling.
 
 The main purpose of this README is to explain the project technically: what is implemented, why each major part exists, how data moves through the app, and how the frontend, backend, security, rendering, hooks, reusable components, and upload flow fit together.
 
@@ -88,12 +88,12 @@ An authenticated user can:
 - Browse marketplace listings with search, filters, pagination, and detail pages.
 - Browse requested products from other students.
 - View product and request details with owner/contact information.
-- Create a new product listing.
+- Create a new product listing with AI-assisted description generation.
 - Upload product images through the CDN upload pipeline.
 - Manage their own listed products.
 - Edit existing product listings.
 - Delete their own product listings.
-- Create a product request.
+- Create a product request with AI-assisted description generation.
 - Manage their own requests.
 - Edit or delete their own requests.
 - View and update their profile.
@@ -119,6 +119,130 @@ Why the admin panel is separate:
 - The user-facing app benefits from Next.js routing, server rendering, metadata, and BFF APIs.
 - The admin app is an internal SPA with its own deployment and UI needs.
 - CORS in `src/proxy.ts` explicitly allows known admin origins and keeps credentialed requests locked to trusted domains.
+
+## AI-Powered Description Generation
+
+Bright College Hub includes an AI description generator on both the **List a Product** and **Request a Product** forms. A seller or buyer fills in the key product fields and clicks **✨ Generate using AI** to receive a 2–3 sentence, polite description that is automatically populated into the description textarea.
+
+### How It Works
+
+The AI call is made exclusively through a Next.js API route on the server. The API key is never exposed to the browser.
+
+```text
+User fills in product fields (name, category, price, condition, years used)
+  -> clicks "✨ Generate using AI"
+  -> useGenerateDescription hook calls POST /api/ai/generate-description
+  -> route validates auth (401 if unauthenticated)
+  -> route validates request body with Zod (400 on missing fields)
+  -> in-memory rate limiter checks per-user quota (429 if exceeded)
+  -> AICC_API_KEY is read from server-side environment
+  -> prompt is built server-side from the product fields
+  -> fetch call to AICC API (api.ai.cc) with gpt-4o-mini model
+  -> response text is trimmed and validated (502 if empty)
+  -> { description: string } returned to client
+  -> hook calls setValue('description', text, { shouldDirty: true })
+  -> description textarea is auto-populated
+```
+
+### AI Provider
+
+The project uses **AICC** (`api.ai.cc`), an OpenAI-compatible proxy with smart model fallback and generous free quota. The model used is `gpt-4o-mini`, which is fast and cost-effective for short description generation.
+
+Why AICC instead of Gemini or Grok directly:
+
+- Gemini free-tier keys on new Google Cloud projects often have `limit: 0` on newer models.
+- AICC provides a stable OpenAI-compatible endpoint with smart fallback across models.
+- The same code works with any OpenAI-compatible provider by changing the base URL and model name.
+
+### API Routes
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| `POST` | `/api/ai/generate-description` | Generates a listing description from product name, category, price, condition, and years used |
+| `POST` | `/api/ai/generate-request-description` | Generates a request description from product name, category, min price, and max price |
+
+### Request Body — List a Product
+
+```json
+{
+  "productName": "HP Laptop",
+  "category": "ELECTRONICS",
+  "price": "16",
+  "condition": "USED",
+  "yearUsed": 4
+}
+```
+
+### Request Body — Request a Product
+
+```json
+{
+  "name": "Water Bottle",
+  "category": "SPORTS",
+  "priceFrom": 5,
+  "priceTo": 20
+}
+```
+
+### Success Response
+
+```json
+{
+  "code": 200,
+  "success": true,
+  "message": "OK",
+  "data": {
+    "description": "This well-maintained HP Laptop is a great choice for students looking for a reliable device for their studies. Used for 4 years, it remains in good working condition and is perfect for everyday academic tasks. A fantastic opportunity to own quality tech at a student-friendly price."
+  }
+}
+```
+
+### Prompt Design
+
+The prompt is built entirely on the server to prevent client-side prompt injection. Key instructions sent to the AI:
+
+- Write 2–3 sentences only.
+- Use a polite, friendly tone suitable for a college student marketplace.
+- Do **not** mention the price in the description text.
+- Return plain text only — no markdown, no bullet points, no headings.
+
+For request descriptions, the tone is adjusted to a "wanted ad" style — the student is looking to buy, not sell.
+
+### Security
+
+- `AICC_API_KEY` is a server-only environment variable and is never included in any HTTP response or client bundle.
+- All requests to the AI route require a valid authenticated session (`getAuthUser` + `authorize(user, UserRole.USER)`).
+- The request body is validated with a Zod schema before the AI call is made.
+- The prompt is constructed server-side from validated field values only.
+
+### Rate Limiting
+
+An in-memory rate limiter prevents a single user from exhausting the free-tier quota.
+
+- Maximum: **10 AI generation requests per user per hour**.
+- Storage: module-level `Map<userId, { count, windowStart }>` — resets on server restart.
+- On limit exceeded: HTTP 429 with `RATE_LIMIT_EXCEEDED` error code and an ISO reset timestamp in the message.
+- The client disables the Generate button until the reset time passes.
+
+### Generate Button UX
+
+- The button is **disabled** until all required context fields are filled (name/productName, category, price/priceFrom+priceTo, condition, yearUsed).
+- While generating, the button shows a spinner and the label **"Generating…"** and is disabled.
+- On success, the description textarea is auto-populated and the button returns to its default state.
+- On error, a toast notification shows the error message.
+- On 429, the button is disabled until the rate-limit window resets.
+- When `AICC_API_KEY` is not configured, the button is disabled with a tooltip "AI not available".
+
+### Character Counter
+
+Both description textareas include a live character counter:
+
+- Displays `{n} / 500 characters` below the textarea.
+- Hard cap of 500 characters enforced via `maxLength={500}`.
+- Counter turns **amber** at 450–499 characters.
+- Counter turns **red** at 500 characters.
+
+---
 
 ## Dependencies
 
@@ -901,6 +1025,13 @@ Routes:
 - `GET /api/swagger`
 - `GET /api-docs`
 
+### AI API
+
+Routes:
+
+- `POST /api/ai/generate-description`
+- `POST /api/ai/generate-request-description`
+
 ## Backend Data Flow
 
 ### Read Flow
@@ -1345,6 +1476,8 @@ Why:
 - The current browser upload flow should rely on unsigned upload presets and public Cloudinary cloud/preset values.
 - Add new deployed frontend/admin domains explicitly to `ALLOWED_ORIGINS`.
 - Never use wildcard CORS with credentialed cookies.
+- `AICC_API_KEY` is a server-only variable — never prefix it with `NEXT_PUBLIC_`.
+- `NEXT_PUBLIC_AI_ENABLED` is a build-time flag — toggling it requires a server restart.
 
 ## Why The BFF Pattern Is Used
 
@@ -1406,4 +1539,4 @@ For understanding the implementation quickly:
 
 ## Summary
 
-Bright College Hub is a Next.js full-stack campus platform. The frontend is organized by feature modules, reusable components, custom hooks, React Query, and Zustand. The backend is implemented with Next.js Route Handlers, Mongoose, Zod validation, services, auth guards, secure cookies, JWT refresh rotation, password reset email, role-based authorization, and CDN-based image uploads. Rendering is mixed deliberately: static auth pages, dynamic list/account pages, ISR-backed detail pages, metadata generation, and React Query hydration for fast server-to-client data flow.
+Bright College Hub is a Next.js full-stack campus platform. The frontend is organized by feature modules, reusable components, custom hooks, React Query, and Zustand. The backend is implemented with Next.js Route Handlers, Mongoose, Zod validation, services, auth guards, secure cookies, JWT refresh rotation, password reset email, role-based authorization, and CDN-based image uploads. Rendering is mixed deliberately: static auth pages, dynamic list/account pages, ISR-backed detail pages, metadata generation, and React Query hydration for fast server-to-client data flow. The platform also includes AI-powered description generation on the List a Product and Request a Product forms — the AI call is made exclusively through a secure server-side Next.js route using the AICC API (OpenAI-compatible), with per-user in-memory rate limiting, Zod validation, auth guards, and a polished Generate Button UX including loading states, character counters, and toast error handling.
