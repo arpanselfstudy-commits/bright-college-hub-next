@@ -124,7 +124,7 @@ export default function RequestProductView({
             <Input
               label="Max Price ($)"
               type="number"
-              placeholder="1000"
+              placeholder="0"
               min={0}
               error={errors.priceTo?.message}
               {...register('priceTo', { valueAsNumber: true })}
@@ -178,7 +178,8 @@ export default function RequestProductView({
               <Input
                 label="Phone Number"
                 type="tel"
-                placeholder="+1 (555) 000-0000"
+                placeholder="0123456789"
+                maxLength={10}
                 error={errors.phoneNo?.message}
                 {...register('phoneNo')}
               />

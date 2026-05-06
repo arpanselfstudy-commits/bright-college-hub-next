@@ -87,7 +87,8 @@ export default function EditProfileView({
           <Input
             label="Phone Number"
             type="tel"
-            placeholder="+1 (555) 000-0000"
+            placeholder="0123456789"
+            maxLength={10}
             leftIcon={<Phone size={15} color="#9ca3af" />}
             error={errors.phoneNumber?.message}
             {...register('phoneNumber')}

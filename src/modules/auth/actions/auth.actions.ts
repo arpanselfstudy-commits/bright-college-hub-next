@@ -32,6 +32,15 @@ export async function loginAction(
       name: hdrs.get('user-agent') ?? undefined,
     }
     const { accessToken, refreshToken, user } = await loginUser(email, password, deviceInfo)
+
+    // This app is for students only — block admin accounts
+    if (user.role === 'ADMIN') {
+      return {
+        success: false,
+        message: 'This is a student app. Admin accounts are not allowed here. Please use your student credentials, or create a new student account.',
+      }
+    }
+
     await setAuthCookies(accessToken, refreshToken)
     // store user in a cookie so the client can hydrate the auth store
     const { cookies } = await import('next/headers')

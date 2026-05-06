@@ -8,6 +8,7 @@ import { AppError } from '../lib/appError'
 import { env } from '../lib/env'
 import { UserModel } from '../models/user.model'
 import { RefreshTokenModel } from '../models/refreshToken.model'
+import { UserActivityLogModel } from '../models/userActivityLog.model'
 import type { IUser } from '../types/backend.types'
 
 type UserWithoutPassword = Omit<IUser, 'password'>
@@ -65,6 +66,14 @@ export async function loginUser(
     deviceInfo,
   })
 
+  // Log login activity
+  await UserActivityLogModel.create({
+    userId: user._id,
+    action: 'LOGIN',
+    ip: deviceInfo?.ip,
+    deviceName: deviceInfo?.name,
+  })
+
   const { password: _p2, ...userObj } = user.toObject() as IUser & { password?: string }
   return { accessToken, refreshToken, user: userObj as UserWithoutPassword }
 }
@@ -103,7 +112,15 @@ export async function refreshUserToken(
 
 export async function logoutUser(token: string): Promise<void> {
   await connectDB()
-  await RefreshTokenModel.deleteOne({ token: hashToken(token) })
+  const hashed = hashToken(token)
+  const stored = await RefreshTokenModel.findOne({ token: hashed })
+  if (stored) {
+    await UserActivityLogModel.create({
+      userId: stored.userId,
+      action: 'LOGOUT',
+    })
+    await stored.deleteOne()
+  }
 }
 
 export async function forgotPassword(email: string): Promise<string> {

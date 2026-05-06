@@ -48,6 +48,7 @@ export async function getListedProducts(filters: {
   const [products, total] = await Promise.all([
     ListedProductModel.find(query)
       .populate('user', 'name email')
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean(),

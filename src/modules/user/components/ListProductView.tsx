@@ -122,7 +122,7 @@ export default function ListProductView({
                 <FormError message={errors.condition?.message} />
               </div>
               <div>
-                <Input label="Years Used" type="number" min={0} {...register('yearUsed', { valueAsNumber: true })} />
+                <Input label="Years Used" type="number" min={0} placeholder="0" {...register('yearUsed', { valueAsNumber: true })} />
               </div>
             </div>
 
@@ -171,7 +171,7 @@ export default function ListProductView({
               <div className={styles.contactTitle}>Contact Details</div>
               <div className={styles.twoCol}>
                 <div>
-                  <Input label="Phone Number" type="tel" placeholder="+1 (555) 000-0000" {...register('phoneNo')} />
+                  <Input label="Phone Number" type="tel" placeholder="0123456789" maxLength={10} {...register('phoneNo')} />
                   <FormError message={errors.phoneNo?.message} />
                 </div>
                 <div>

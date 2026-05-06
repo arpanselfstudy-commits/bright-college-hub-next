@@ -57,7 +57,7 @@ export async function getShops(filters: {
 
   const skip = (page - 1) * limit
   const [shops, total] = await Promise.all([
-    ShopModel.find(query).skip(skip).limit(limit).lean(),
+    ShopModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
     ShopModel.countDocuments(query),
   ])
 

@@ -26,6 +26,10 @@ export default function LoginPage() {
       if (match) {
         try {
           const user = JSON.parse(decodeURIComponent(match[1]))
+          // Extra client-side guard — admin accounts must not access the student app
+          if (user.role === 'ADMIN') {
+            return
+          }
           setAuth(user, '', '')
         } catch { /* ignore */ }
       }
@@ -98,7 +102,17 @@ export default function LoginPage() {
             </div>
 
             {state.message && !state.success && (
-              <FormError message={state.message} />
+              <div>
+                <FormError message={state.message} />
+                {state.message.includes('student') && (
+                  <p style={{ fontSize: '13px', marginTop: '6px', color: '#6b7280' }}>
+                    Don&apos;t have a student account?{' '}
+                    <Link href="/register" style={{ color: '#2a14b4', fontWeight: 600 }}>
+                      Create one here
+                    </Link>
+                  </p>
+                )}
+              </div>
             )}
 
             <button className="btn btn-primary" type="submit" disabled={isPending}>

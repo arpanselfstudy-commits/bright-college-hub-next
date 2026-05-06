@@ -14,7 +14,7 @@ export function useListProductForm() {
       price: '',
       description: '',
       condition: 'NEW',
-      yearUsed: 0,
+      yearUsed: undefined as unknown as number,
       isNegotiable: false,
       email: '',
       phoneNo: '',

@@ -142,6 +142,7 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
                       label="Min Price ($)"
                       type="number"
                       min={0}
+                      placeholder="0"
                       error={errors.priceFrom?.message}
                       {...register('priceFrom', { valueAsNumber: true })}
                     />
@@ -149,6 +150,7 @@ export default function ManageRequestView({ request, isLoading, editing, onToggl
                       label="Max Price ($)"
                       type="number"
                       min={0}
+                      placeholder="0"
                       error={errors.priceTo?.message}
                       {...register('priceTo', { valueAsNumber: true })}
                     />

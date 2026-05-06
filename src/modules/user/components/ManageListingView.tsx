@@ -168,6 +168,7 @@ export default function ManageListingView({ product, isLoading, editing, onToggl
                       label="Years Used"
                       type="number"
                       min={0}
+                      placeholder="0"
                       {...register('yearUsed', { valueAsNumber: true })}
                     />
                   </div>

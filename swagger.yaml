@@ -488,9 +488,6 @@ components:
         totalUsers:
           type: integer
           description: Total number of registered users
-        newUsersThisMonth:
-          type: integer
-          description: Users who joined in the current calendar month
         totalJobs:
           type: integer
           description: Total number of job listings
@@ -503,6 +500,60 @@ components:
         totalRequestedProducts:
           type: integer
           description: Total number of product requests
+        totalLogins:
+          type: integer
+          description: Total login events recorded across all users
+        totalLogouts:
+          type: integer
+          description: Total logout events recorded across all users
+
+    UserActivityLog:
+      type: object
+      properties:
+        _id:
+          type: string
+        userId:
+          $ref: '#/components/schemas/User'
+        action:
+          type: string
+          enum: [LOGIN, LOGOUT]
+          description: The activity action performed
+        ip:
+          type: string
+          nullable: true
+          description: IP address at the time of the action
+        deviceName:
+          type: string
+          nullable: true
+          description: Device or user-agent name
+        createdAt:
+          type: string
+          format: date-time
+
+    ActivityLogsPaginationData:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserActivityLog'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+            page:
+              type: integer
+            limit:
+              type: integer
+            pages:
+              type: integer
 
 paths:
   # ─────────────────────────────────────────
@@ -2044,7 +2095,7 @@ paths:
     get:
       tags: [Admin]
       summary: Get dashboard stats (Admin only)
-      description: Returns platform-wide counts — total users, new users this month, jobs, shops, listed products, and requested products.
+      description: Returns platform-wide counts — total users, jobs, shops, listed products, requested products, total logins, and total logouts.
       security:
         - accessToken: []
       responses:
@@ -2059,6 +2110,60 @@ paths:
                     properties:
                       data:
                         $ref: '#/components/schemas/DashboardStats'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Admin only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/admin/activity-logs:
+    get:
+      tags: [Admin]
+      summary: Get user activity logs — login and logout events (Admin only)
+      description: Returns a paginated list of user login and logout events. Can be filtered by action type or specific user.
+      security:
+        - accessToken: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: action
+          in: query
+          schema:
+            type: string
+            enum: [LOGIN, LOGOUT]
+          description: Filter by action type
+        - name: userId
+          in: query
+          schema:
+            type: string
+          description: Filter logs for a specific user by their MongoDB ObjectId
+      responses:
+        '200':
+          description: Paginated list of activity logs
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ActivityLogsPaginationData'
         '401':
           description: Unauthorized
           content:

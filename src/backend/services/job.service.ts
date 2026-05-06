@@ -77,7 +77,7 @@ export async function getJobs(filters: {
 
   const skip = (page - 1) * limit
   const [jobs, total] = await Promise.all([
-    JobModel.find(query).skip(skip).limit(limit).lean(),
+    JobModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
     JobModel.countDocuments(query),
   ])
 

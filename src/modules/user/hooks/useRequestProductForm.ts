@@ -12,8 +12,8 @@ export function useRequestProductForm() {
       defaultValues: {
         name: '',
         category: 'ELECTRONICS',
-        priceFrom: 0,
-        priceTo: 0,
+        priceFrom: undefined as unknown as number,
+        priceTo: undefined as unknown as number,
         isNegotiable: false,
         description: '',
         email: '',
