@@ -54,7 +54,6 @@ Other scripts:
 npm run build
 npm run start
 npm run lint
-npm test
 ```
 
 `npm run build` creates a production build. `next.config.ts` uses `output: 'standalone'`, so the build can be deployed in container or server environments with only the runtime files needed by Next.js.
