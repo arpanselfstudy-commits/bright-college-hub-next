@@ -1508,12 +1508,6 @@ Included because they are present:
 - Same-origin Axios client with cookie refresh handling.
 - CDN image upload through Cloudinary, with ImgBB support present as a fallback helper.
 
-Not included as active project behavior:
-
-- Bundle analyzer workflow from onboarding, because the current `package.json` and `next.config.ts` do not include analyzer wiring.
-- Repository pattern as a production persistence layer, because the current repository file is a stub and real persistence is handled through services plus Mongoose models.
-- Beginner-focused learning roadmap material, because this README is intended as a technical project explanation.
-
 ## Technical Reading Order
 
 For understanding the implementation quickly:
