@@ -6,6 +6,9 @@ import { useCreateListedProduct } from '@/modules/marketplace/hooks/useListedPro
 import { useImageUpload } from '@/modules/user/hooks/useImageUpload'
 import ListProductView from '@/modules/user/components/ListProductView'
 import { useListProductForm } from '@/modules/user/hooks/useListProductForm'
+import { useGenerateDescription } from '@/modules/user/hooks/useGenerateDescription'
+
+const isAiEnabled = process.env.NEXT_PUBLIC_AI_ENABLED === 'true'
 
 export default function ListProductPage() {
   const router = useRouter()
@@ -13,7 +16,13 @@ export default function ListProductPage() {
   const { mutate: create, isPending } = useCreateListedProduct()
 
   const { register, handleSubmit: rhfHandleSubmit, formState: { errors }, watch, setValue } = useListProductForm()
-  const { images, isUploading, onDrop, removeImage, uploadAll } = useImageUpload(5)
+  const { images, isUploading, onDrop, removeImage, uploadAll } = useImageUpload(1)
+
+  const { generate, isGenerating, canGenerate, rateLimitedUntil } = useGenerateDescription({
+    setValue,
+    watch,
+    isAiEnabled,
+  })
 
   const handleSubmit = rhfHandleSubmit(async (data) => {
     if (!user || images.length === 0) return
@@ -40,6 +49,11 @@ export default function ListProductPage() {
       isPending={isPending}
       isUploading={isUploading}
       onSubmit={handleSubmit}
+      isGenerating={isGenerating}
+      canGenerate={canGenerate}
+      onGenerate={generate}
+      isAiEnabled={isAiEnabled}
+      rateLimitedUntil={rateLimitedUntil}
     />
   )
 }

@@ -6,6 +6,9 @@ import { useCreateRequestedProduct } from '@/modules/marketplace/hooks/useReques
 import { useImageUpload } from '@/modules/user/hooks/useImageUpload'
 import RequestProductView from '@/modules/user/components/RequestProductView'
 import { useRequestProductForm } from '@/modules/user/hooks/useRequestProductForm'
+import { useGenerateRequestDescription } from '@/modules/user/hooks/useGenerateRequestDescription'
+
+const isAiEnabled = process.env.NEXT_PUBLIC_AI_ENABLED === 'true'
 
 export default function RequestProductPage() {
   const router = useRouter()
@@ -13,7 +16,13 @@ export default function RequestProductPage() {
   const { mutate: create, isPending } = useCreateRequestedProduct()
 
   const { register, handleSubmit: rhfHandleSubmit, formState: { errors }, watch, setValue } = useRequestProductForm()
-  const { images, isUploading, onDrop, removeImage, uploadAll } = useImageUpload(5)
+  const { images, isUploading, onDrop, removeImage, uploadAll } = useImageUpload(1)
+
+  const { generate, isGenerating, canGenerate, rateLimitedUntil } = useGenerateRequestDescription({
+    setValue,
+    watch,
+    isAiEnabled,
+  })
 
   const handleSubmit = rhfHandleSubmit(async (data) => {
     if (!user || images.length === 0) return
@@ -40,6 +49,11 @@ export default function RequestProductPage() {
       isPending={isPending}
       isUploading={isUploading}
       onSubmit={handleSubmit}
+      isGenerating={isGenerating}
+      canGenerate={canGenerate}
+      onGenerate={generate}
+      isAiEnabled={isAiEnabled}
+      rateLimitedUntil={rateLimitedUntil}
     />
   )
 }

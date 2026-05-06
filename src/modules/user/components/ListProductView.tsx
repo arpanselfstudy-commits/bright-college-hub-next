@@ -29,6 +29,12 @@ export interface ListProductViewProps {
   isPending: boolean
   isUploading?: boolean
   onSubmit: (e?: React.BaseSyntheticEvent) => void
+  // AI generation props
+  isGenerating: boolean
+  canGenerate: boolean
+  onGenerate: () => void
+  isAiEnabled: boolean
+  rateLimitedUntil: number | null
 }
 
 export default function ListProductView({
@@ -42,8 +48,25 @@ export default function ListProductView({
   isPending,
   isUploading = false,
   onSubmit,
+  isGenerating,
+  canGenerate,
+  onGenerate,
+  isAiEnabled,
+  rateLimitedUntil,
 }: ListProductViewProps) {
   const condition = watch('condition')
+  const descValue = watch('description') ?? ''
+  const charCount = descValue.length
+
+  const charCountClass =
+    charCount === 500
+      ? styles.charCounterError
+      : charCount >= 450
+        ? styles.charCounterWarn
+        : styles.charCounter
+
+  const isRateLimited = rateLimitedUntil !== null && Date.now() < rateLimitedUntil
+  const generateDisabled = !isAiEnabled || !canGenerate || isGenerating || isRateLimited
 
   return (
     <div className={styles.wrapper}>
@@ -59,16 +82,18 @@ export default function ListProductView({
         <div className={styles.formPanel}>
           <form onSubmit={onSubmit} className={styles.form}>
 
+            {/* 1. Product Name */}
             <div>
               <Input label="Product Name" type="text" placeholder="e.g. Advanced Calculus Textbook" {...register('productName')} />
               <FormError message={errors.productName?.message} />
             </div>
 
+            {/* 2. Category + Price (two-column) */}
             <div className={styles.twoCol}>
               <div>
                 <label className={styles.fieldLabel}>Category</label>
                 <select className={styles.select} {...register('category')}>
-                  {LISTED_CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABEL[c]}</option>)}
+                  {LISTED_CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABEL[c as ListedProductCategory]}</option>)}
                 </select>
                 <FormError message={errors.category?.message} />
               </div>
@@ -78,16 +103,7 @@ export default function ListProductView({
               </div>
             </div>
 
-            <div>
-              <label className={styles.fieldLabel}>Description</label>
-              <textarea
-                className={styles.textarea}
-                placeholder="Condition, features, why it's a great find..."
-                {...register('description')}
-              />
-              <FormError message={errors.description?.message} />
-            </div>
-
+            {/* 3. Condition + Years Used (two-column) */}
             <div className={styles.twoCol}>
               <div>
                 <label className={styles.fieldLabel}>Condition</label>
@@ -110,11 +126,47 @@ export default function ListProductView({
               </div>
             </div>
 
-            <label className={styles.checkboxLabel}>
-              <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
-              Open to Negotiation
-            </label>
+            {/* 4. Description — label + Generate Button + textarea + character counter */}
+            <div>
+              <label className={styles.fieldLabel}>Description</label>
+              <button
+                type="button"
+                className={styles.generateBtn}
+                onClick={onGenerate}
+                disabled={generateDisabled}
+                title={!isAiEnabled ? 'AI not available' : undefined}
+              >
+                {isGenerating
+                  ? <><Loader size={16} /> Generating…</>
+                  : '✨ Generate using AI'}
+              </button>
+              <textarea
+                className={styles.textarea}
+                placeholder="Condition, features, why it's a great find..."
+                maxLength={500}
+                {...register('description')}
+              />
+              <span className={charCountClass}>{charCount} / 500 characters</span>
+              <FormError message={errors.description?.message} />
+            </div>
 
+            {/* 5. Product Images */}
+            <div>
+              <ImageUploader
+                label="Product Image"
+                hint="PNG, JPG, WEBP up to 10MB"
+                maxSizeMb={10}
+                onFileSelect={(file) => onDrop([file])}
+                onRemove={() => onRemoveImage(0)}
+                previewUrl={images[0]?.preview}
+                isUploading={isUploading}
+              />
+              {images.length === 0 && (
+                <p className={styles.imageRequired}>⚠ At least 1 image is required.</p>
+              )}
+            </div>
+
+            {/* 6. Contact Details */}
             <div className={styles.contactSection}>
               <div className={styles.contactTitle}>Contact Details</div>
               <div className={styles.twoCol}>
@@ -129,32 +181,13 @@ export default function ListProductView({
               </div>
             </div>
 
-            {/* Image uploader — inside form, above submit button */}
-            <div>
-              <ImageUploader
-                label="Product Images (min 1, max 5)"
-                hint="PNG, JPG, WEBP up to 10MB"
-                maxSizeMb={10}
-                onFileSelect={(file) => onDrop([file])}
-                onRemove={() => onRemoveImage(0)}
-                previewUrl={images[0]?.preview}
-                isUploading={isUploading}
-              />
-              {images.length > 1 && (
-                <div className={styles.extraImages}>
-                  {images.slice(1).map((img, i) => (
-                    <div key={img.preview} className={styles.extraImageItem}>
-                      <img src={img.preview} alt="" className={styles.extraImageImg} />
-                      <button onClick={() => onRemoveImage(i + 1)} type="button" className={styles.extraImageRemove}>×</button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {images.length === 0 && (
-                <p className={styles.imageRequired}>⚠ At least 1 image is required.</p>
-              )}
-            </div>
+            {/* 7. Open to Negotiation */}
+            <label className={styles.checkboxLabel}>
+              <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
+              Open to Negotiation
+            </label>
 
+            {/* 8. Submit */}
             <button
               type="submit"
               disabled={isPending || isUploading || images.length === 0}

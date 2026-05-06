@@ -1,12 +1,13 @@
 'use client'
 
 import '@/styles/design.css'
-import { useDropzone } from 'react-dropzone'
 import { UploadCloud, X } from 'lucide-react'
 import { LISTED_CATEGORIES, CATEGORY_LABEL } from '@/modules/marketplace/types'
 import Loader from '@/components/common/Loader/Loader'
 import Input from '@/components/common/Input/Input'
 import BackButton from '@/components/common/BackButton/BackButton'
+import dynamic from 'next/dynamic'
+const ImageUploader = dynamic(() => import('@/components/common/ImageUploader/ImageUploader'), { ssr: false, loading: () => null })
 import type { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form'
 import type { RequestProductForm } from '@/modules/user/types'
 import styles from './RequestProductView.module.css'
@@ -22,24 +23,41 @@ export interface RequestProductViewProps {
   isPending: boolean
   isUploading?: boolean
   onSubmit: (e?: React.BaseSyntheticEvent) => void
+  // AI generation props
+  isGenerating: boolean
+  canGenerate: boolean
+  onGenerate: () => void
+  isAiEnabled: boolean
+  rateLimitedUntil: number | null
 }
 
 export default function RequestProductView({
   register,
   errors,
+  watch,
   images,
   onDrop,
   onRemoveImage,
   isPending,
   isUploading = false,
   onSubmit,
+  isGenerating,
+  canGenerate,
+  onGenerate,
+  isAiEnabled,
+  rateLimitedUntil,
 }: RequestProductViewProps) {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
-    maxFiles: 5,
-    disabled: images.length >= 5 || isUploading,
-  })
+  const descValue = watch('description') ?? ''
+  const charCount = descValue.length
+  const charCountClass =
+    charCount === 500
+      ? styles.charCounterError
+      : charCount >= 450
+        ? styles.charCounterWarn
+        : styles.charCounter
+
+  const isRateLimited = rateLimitedUntil !== null && Date.now() < rateLimitedUntil
+  const generateDisabled = !isAiEnabled || !canGenerate || isGenerating || isRateLimited
 
   return (
     <div className={styles.wrapper}>
@@ -76,6 +94,7 @@ export default function RequestProductView({
       <div className={styles.formPanel}>
         <form onSubmit={onSubmit} className={styles.form}>
 
+          {/* 1. Product Name */}
           <Input
             label="Product Name"
             type="text"
@@ -84,6 +103,7 @@ export default function RequestProductView({
             {...register('name')}
           />
 
+          {/* 2. Category */}
           <div>
             <label className={styles.fieldLabel}>Category</label>
             <select className={styles.select} {...register('category')}>
@@ -91,6 +111,7 @@ export default function RequestProductView({
             </select>
           </div>
 
+          {/* 3. Min Price + Max Price */}
           <div className={styles.priceGrid}>
             <Input
               label="Min Price ($)"
@@ -110,50 +131,47 @@ export default function RequestProductView({
             />
           </div>
 
-          <label className={styles.checkboxLabel}>
-            <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
-            Open to Negotiation
-          </label>
-
-          <Input
-            label="Description"
-            type="text"
-            placeholder="Specific requirements, condition preferences, urgency..."
-            error={errors.description?.message}
-            {...register('description')}
-          />
-
-          {/* Dropzone */}
+          {/* 4. Description + Generate AI */}
           <div>
-            <label className={styles.fieldLabel}>Images (min 1, max 5)</label>
-            <div
-              {...getRootProps()}
-              className={[
-                styles.dropzone,
-                isDragActive ? styles['dropzone--active'] : '',
-                images.length >= 5 ? styles['dropzone--disabled'] : '',
-              ].join(' ')}
+            <label className={styles.fieldLabel}>Description</label>
+            <button
+              type="button"
+              className={styles.generateBtn}
+              onClick={onGenerate}
+              disabled={generateDisabled}
+              title={!isAiEnabled ? 'AI not available' : undefined}
             >
-              <input {...getInputProps()} />
-              <UploadCloud size={28} color="#2a14b4" className={styles.dropzoneIcon} />
-              <div className={styles.dropzoneTitle}>{isDragActive ? 'Drop here' : 'Drag & drop or click to browse'}</div>
-              <div className={styles.dropzoneCount}>{images.length}/5 uploaded</div>
-            </div>
-            {images.length > 0 && (
-              <div className={styles.previewList}>
-                {images.map((img, i) => (
-                  <div key={img.preview} className={styles.previewItem}>
-                    <img src={img.preview} alt="" className={styles.previewImg} />
-                    <button onClick={() => onRemoveImage(i)} type="button" className={styles.previewRemove}>
-                      <X size={10} />
-                    </button>
-                  </div>
-                ))}
-              </div>
+              {isGenerating
+                ? <><Loader size={16} /> Generating…</>
+                : '✨ Generate using AI'}
+            </button>
+            <textarea
+              className={styles.textarea}
+              placeholder="Specific requirements, condition preferences, urgency..."
+              maxLength={500}
+              {...register('description')}
+            />
+            <span className={charCountClass}>{charCount} / 500 characters</span>
+            {errors.description?.message && (
+              <p className={styles.fieldError}>{errors.description.message}</p>
             )}
+          </div>
+
+          {/* 5. Images */}
+          <div>
+            <ImageUploader
+              label="Product Image"
+              hint="PNG, JPG, WEBP up to 10MB"
+              maxSizeMb={10}
+              onFileSelect={(file) => onDrop([file])}
+              onRemove={() => onRemoveImage(0)}
+              previewUrl={images[0]?.preview}
+              isUploading={isUploading}
+            />
             {images.length === 0 && <p className={styles.imageRequired}>⚠ At least 1 image is required.</p>}
           </div>
 
+          {/* 6. Contact Details */}
           <div className={styles.contactSection}>
             <h3 className={styles.contactTitle}>Contact Details</h3>
             <div className={styles.contactGrid}>
@@ -174,6 +192,13 @@ export default function RequestProductView({
             </div>
           </div>
 
+          {/* 7. Open to Negotiation */}
+          <label className={styles.checkboxLabel}>
+            <input type="checkbox" className={styles.checkbox} {...register('isNegotiable')} />
+            Open to Negotiation
+          </label>
+
+          {/* 8. Submit */}
           <button
             type="submit"
             disabled={isPending || isUploading || images.length === 0}

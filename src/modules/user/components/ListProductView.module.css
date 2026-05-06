@@ -287,3 +287,51 @@
   .wrapper { padding: 28px 24px; }
   .layout  { grid-template-columns: 1fr 280px; }
 }
+
+/* ── Generate AI Button ─────────────────────────────────── */
+.generateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #2a14b4, #4338ca);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s;
+}
+
+.generateBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Character counter ──────────────────────────────────── */
+.charCounter {
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: right;
+  margin-top: 4px;
+  display: block;
+}
+
+.charCounterWarn {
+  font-size: 11px;
+  color: #d97706;
+  text-align: right;
+  margin-top: 4px;
+  display: block;
+}
+
+.charCounterError {
+  font-size: 11px;
+  color: #dc2626;
+  text-align: right;
+  margin-top: 4px;
+  display: block;
+}
