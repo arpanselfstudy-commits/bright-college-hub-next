@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs'
-import crypto from 'crypto'
-import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs' // Password Hashing
+import crypto from 'crypto' // Secure Random & Token Utilities (token encriptiong) 
+import jwt from 'jsonwebtoken' // It allows stateless authentication.
 import { connectDB } from '../lib/db'
 import { generateAccessToken, generateRefreshToken, hashToken } from '../lib/jwt'
 import { sendResetPasswordEmail } from '../lib/mailer'

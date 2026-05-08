@@ -21,7 +21,89 @@ export async function connectDB(): Promise<typeof mongoose> {
     return mongoose
   }
 
+  /*
+  Check Mongoose Internal State
+    if (mongoose.connection.readyState >= 1)
+
+    Mongoose connection states:
+
+    State	Meaning
+    0	disconnected
+    1	connected
+    2	connecting
+    3	disconnecting
+
+    So:
+
+    >= 1
+
+    means:
+
+    ✅ already connected
+    or
+    ✅ currently connecting
+  */
+
   const conn = await mongoose.connect(uri)
   global._mongooseConn = conn
   return conn
 }
+
+
+/*
+Its main purpose:
+
+✅ Prevent multiple DB connections
+✅ Fix Next.js hot-reload issues
+✅ Reuse connection globally
+✅ Improve performance & stability
+
+
+In a normal Node.js app:
+
+Server starts → connect to DB once → reuse forever
+
+
+Next.js Problem
+
+During development:
+
+files reload frequently
+server modules re-execute
+API routes re-import files
+
+Result:
+
+❌ Multiple MongoDB connections created
+❌ Memory leak
+❌ "Too many connections" error
+❌ MongoDB crashes locally
+
+
+Problem Without Global Cache
+
+Next.js reloads modules like:
+
+save file →
+reload server module →
+run connectDB again →
+create NEW DB connection
+
+You end up with:
+
+connection 1
+connection 2
+connection 3
+connection 4...
+
+Bad.
+
+Solution
+
+Store connection globally:
+
+global._mongooseConn
+
+Now connection persists across reloads.
+
+*/

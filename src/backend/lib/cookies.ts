@@ -6,14 +6,14 @@ export async function setAuthCookies(accessToken: string, refreshToken: string):
   const store = await cookies()
   store.set('accessToken', accessToken, {
     httpOnly: true,
-    secure: IS_PROD,
+    secure: IS_PROD, // https only 
     sameSite: IS_PROD ? 'none' : 'lax',
     path: '/',
     maxAge: 900, // 15 minutes — matches JWT expiry
   })
   store.set('refreshToken', refreshToken, {
     httpOnly: true,
-    secure: IS_PROD,
+    secure: IS_PROD, // https only 
     sameSite: IS_PROD ? 'none' : 'lax',
     path: '/',
     maxAge: 604800,
