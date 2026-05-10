@@ -46,9 +46,9 @@ export async function loginAction(
     const { cookies } = await import('next/headers')
     const store = await cookies()
     store.set('auth-user', JSON.stringify(user), {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      httpOnly: false, // js can access it or not
+      secure: process.env.NODE_ENV === 'production', //Cookie sent only over HTTPS not HTTP
+      sameSite: 'lax', // Can cookies be sent in cross-site requests 
       path: '/',
       maxAge: 900,
     })

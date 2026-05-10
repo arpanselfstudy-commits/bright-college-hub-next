@@ -18,6 +18,16 @@ interface RateLimitEntry {
 }
 
 const rateLimitStore = new Map<string, RateLimitEntry>()
+/*
+data is stored inside: Node.js server memory (RAM)
+  
+Real Production Architecture
+App Server
+    ↓
+Redis
+    ↓
+Rate Limit Data
+*/
 const RATE_LIMIT_MAX = 10
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour in ms
 
@@ -91,8 +101,20 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
   const prompt = buildPrompt(data)
 
   // f. Call AICC API (OpenAI-compatible, smart fallback across models)
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), 30000)
+  const controller = new AbortController() // Allows cancelling fetch request.
+  /*
+  What is AbortController in JavaScript?
+      AbortController is a built-in JavaScript API used to:
+      cancel async operations
+      stop fetch requests
+      prevent hanging request
+  Attach Signal to Fetch
+      signal: controller.signal
+      Now fetch listens for abort signal.
+  */
+  const timer = setTimeout(() => controller.abort(), 30000) // Allows cancelling fetch request. Abort after: 30 seconds
+
+
 
   let aiRes: Response
   try {
@@ -113,8 +135,22 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
         ],
         max_tokens: 150,
         temperature: 0.7,
+        /*
+        temperature
+            temperature: 0.7
+            Controls creativity.
+            Value	Behavior
+            0	deterministic
+            1	creative
+        */
       }),
       signal: controller.signal,
+
+      /*
+    Attach Signal to Fetch
+      signal: controller.signal
+      Now fetch listens for abort signal.
+      */
     })
     clearTimeout(timer)
   } catch (err: unknown) {
@@ -124,7 +160,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     throw new AppError(`AI request failed: ${msg}`, 502, 'AI_SERVICE_ERROR')
   }
 
-  if (!aiRes.ok) {
+  if (!aiRes.ok) { //Checks non-2xx responses.
     const errBody = await aiRes.json().catch(() => ({}))
     console.error('[AI route] AICC error:', aiRes.status, JSON.stringify(errBody))
     const aiMessage = errBody?.error?.message ?? 'AI service returned an error.'

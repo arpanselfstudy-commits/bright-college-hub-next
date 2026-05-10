@@ -38,3 +38,30 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
     </Suspense>
   )
 }
+
+/*
+
+Initial render
+hydrated = false
+
+Show loader.
+
+After mount
+hydrated = true
+
+Now safe to check auth.
+=================
+
+While hydrating
+if (!hydrated) return <PageLoader />
+
+Show loading screen.
+
+If unauthenticated
+if (!isAuthenticated) return null
+
+Render nothing.
+
+Because redirect already happening.
+
+*/
